@@ -74,7 +74,7 @@ public class DelfiC3
 
             XTCEDatabase db_ = new XTCEDatabase( new File( file ), true, false, true );
             
-            String containerName = "/Delfi-C3/PayloadFrame";
+            String containerName = "/Delfi-C3/Downlink";
                         
             XTCESpaceSystem ss = db_.getSpaceSystem( "Delfi-C3" );
             XTCETMContainer container = db_.getContainer( containerName );

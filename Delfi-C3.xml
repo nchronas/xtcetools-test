@@ -84,10 +84,15 @@
             	<xtce:UnitSet/>
                 <xtce:IntegerDataEncoding sizeInBits="12" bitOrder="leastSignificantBitFirst"/>
             </xtce:IntegerParameterType>
-            <xtce:IntegerParameterType name="UInt16">
+            <!--xtce:IntegerParameterType name="UInt16">
             	<xtce:UnitSet/>
-                <xtce:IntegerDataEncoding sizeInBits="16"/>
-            </xtce:IntegerParameterType>
+                <xtce:IntegerDataEncoding sizeInBits="16" encoding="unsigned">
+                	<xtce:ByteOrderList>
+                        <xtce:Byte byteSignificance="1"/>
+                        <xtce:Byte byteSignificance="0"/>
+                    </xtce:ByteOrderList>
+                </xtce:IntegerDataEncoding>    
+            </xtce:IntegerParameterType-->
             <xtce:IntegerParameterType name="UInt20">
             	<xtce:UnitSet/>
                 <xtce:IntegerDataEncoding sizeInBits="20"/>
@@ -114,32 +119,62 @@
                 <xtce:IntegerDataEncoding sizeInBits="8"/>
             </xtce:IntegerParameterType>
             
-			<xtce:IntegerParameterType name="BootCounterType">
+			<xtce:IntegerParameterType name="UInt16">
                 <xtce:UnitSet/>
-                <xtce:IntegerDataEncoding encoding="unsigned" sizeInBits="8">
-                    <!--xtce:ByteOrderList>
-                        <xtce:Byte byteSignificance="0"/>
-                        <xtce:Byte byteSignificance="1"/>
-                    </xtce:ByteOrderList-->
+                <xtce:IntegerDataEncoding encoding="unsigned" sizeInBits="16">
+				<!-- swap the two bytes of a short: this is needed because ByteOrderList is not supported -->  
                     <xtce:DefaultCalibrator>   
 					  <xtce:MathOperationCalibrator>    
-						<xtce:ParameterInstanceRefOperand parameterRef="PartialBootCounter"/>   
-						<xtce:ValueOperand>256</xtce:ValueOperand>   
-						<xtce:Operator>*</xtce:Operator>   
 						<xtce:ThisParameterOperand/>   
-						<xtce:Operator>+</xtce:Operator>   
+						<xtce:ValueOperand>256</xtce:ValueOperand>   
+						<xtce:Operator>%</xtce:Operator>  
+						<xtce:ValueOperand>65536</xtce:ValueOperand> 
+						<xtce:Operator>*</xtce:Operator> 
+						<xtce:ThisParameterOperand/>
+						<xtce:Operator>+</xtce:Operator> 
+						<xtce:ValueOperand>256</xtce:ValueOperand> 
+						<xtce:Operator>/</xtce:Operator>  
 					  </xtce:MathOperationCalibrator>   
-					</xtce:DefaultCalibrator>   
-
+					</xtce:DefaultCalibrator> 
                 </xtce:IntegerDataEncoding>
             </xtce:IntegerParameterType>
 						
-						
-									<xtce:ArrayParameterType name="pippo" arrayTypeRef="UInt8" numberOfDimensions="1"/>
-			
-			<xtce:ArrayParameterType name="Array_Dim1_Float64_Type" arrayTypeRef="Float32" numberOfDimensions="1">
-				<xtce:LongDescription>This is some calibration values for a payload device</xtce:LongDescription>
-			</xtce:ArrayParameterType>
+			<xtce:IntegerParameterType name="TFSC_IV_I_Type">
+            	<xtce:UnitSet>
+					<xtce:Unit>A</xtce:Unit>
+				</xtce:UnitSet>
+                <xtce:IntegerDataEncoding sizeInBits="8">
+                <xtce:DefaultCalibrator> 
+					<xtce:MathOperationCalibrator>    
+						<xtce:ThisParameterOperand/>   
+						<xtce:ValueOperand>0.004</xtce:ValueOperand>   
+						<xtce:Operator>*</xtce:Operator>    
+					  </xtce:MathOperationCalibrator>   
+					</xtce:DefaultCalibrator> 
+                </xtce:IntegerDataEncoding>
+            </xtce:IntegerParameterType>	
+            
+            <xtce:IntegerParameterType name="TFSC_IV_V_Type">
+            	<xtce:UnitSet>
+					<xtce:Unit>V</xtce:Unit>
+				</xtce:UnitSet>
+                <xtce:IntegerDataEncoding sizeInBits="8">
+                <xtce:DefaultCalibrator> 
+					<xtce:MathOperationCalibrator>    
+						<xtce:ThisParameterOperand/>   
+						<xtce:ValueOperand>0.008</xtce:ValueOperand>   
+						<xtce:Operator>*</xtce:Operator>    
+					  </xtce:MathOperationCalibrator>   
+					</xtce:DefaultCalibrator> 
+                </xtce:IntegerDataEncoding>
+            </xtce:IntegerParameterType>	
+            	
+			<xtce:AggregateParameterType name="TFSC_IV_Type" shortDescription="TFSC IV curve array element">
+				<xtce:MemberList>
+					<xtce:Member name="I" typeRef="TFSC_IV_I_Type"/>
+					<xtce:Member name="V" typeRef="TFSC_IV_V_Type"/>
+				</xtce:MemberList>
+			</xtce:AggregateParameterType>
 			
             <!-- The following represents a bit pattern of some telemetry value using a binary type with binary data encoding.
                  This type as defined here is not much different from the Unsigned8BitInteger type defined above except
@@ -149,97 +184,118 @@
         <xtce:ParameterSet>
             <!-- These are parameters that may be used in abstract telemetry or command containers to define system-level settings. -->
 
-            <xtce:Parameter name="BootCounter" parameterTypeRef="BootCounterType"/>
-            <xtce:Parameter name="PartialBootCounter" parameterTypeRef="UInt8"/>
-            <xtce:Parameter name="FrameID" parameterTypeRef="FrameIDType"/>
-            <xtce:Parameter name="Padding" parameterTypeRef="UInt4"/>
-            <xtce:Parameter name="SequenceCounter" parameterTypeRef="UInt20"/>
-            <xtce:Parameter name="SuccesfulBootCounter" parameterTypeRef="UInt12"/>
+            <xtce:Parameter name="BootCounter" parameterTypeRef="UInt16"/>
+            <xtce:Parameter name="FrameNumber" parameterTypeRef="UInt16"/>
             
-            <xtce:Parameter name="ASCIIByte5" parameterTypeRef="Byte"/>
-            <xtce:Parameter name="ASCIIByte6" parameterTypeRef="Byte"/>
-            <xtce:Parameter name="FillerBit" parameterTypeRef="bit"/>
-            <xtce:Parameter name="SyncByte1" parameterTypeRef="Byte"/>
-            <xtce:Parameter name="SyncByte2" parameterTypeRef="Byte"/>
-            <xtce:Parameter name="SubsystemID" parameterTypeRef="Byte"/>
-            <xtce:Parameter name="EventID" parameterTypeRef="UInt5"/>
-            <xtce:Parameter name="NumberOfDataBytesFollowing" parameterTypeRef="UInt32"/>
-            <xtce:Parameter name="NumberOfSamples" parameterTypeRef="UInt32"/>
-            <xtce:Parameter name="Samples" parameterTypeRef="Byte"/>
+            <xtce:Parameter name="FrameIDPadding" parameterTypeRef="UInt6"/>
+			<xtce:Parameter name="FrameID" parameterTypeRef="FrameIDType"/>
+			
             <xtce:Parameter name="AX25Header" parameterTypeRef="AX25headerType"/>
-            <!--xtce:Parameter name="IVcurve_ZpXp" parameterTypeRef="pippo"/-->
             
-            <xtce:Parameter name="IVcurve_ZpXp0" parameterTypeRef="UInt8"/>
-            <xtce:Parameter name="IVcurve_ZpXp1" parameterTypeRef="UInt8"/>
-            <xtce:Parameter name="IVcurve_ZpXp2" parameterTypeRef="UInt8"/>
-            <xtce:Parameter name="IVcurve_ZpXp3" parameterTypeRef="UInt8"/>
-            <xtce:Parameter name="IVcurve_ZpXp4" parameterTypeRef="UInt8"/>
-            <xtce:Parameter name="IVcurve_ZpXp5" parameterTypeRef="UInt8"/>
-            <xtce:Parameter name="IVcurve_ZpXp6" parameterTypeRef="UInt8"/>
-            <xtce:Parameter name="IVcurve_ZpXp7" parameterTypeRef="UInt8"/>
-            
-            
-            
-            <xtce:Parameter name="Battery_State_Of_Charge" parameterTypeRef="Battery_State_Of_Charge_Type">
-						<xtce:ParameterProperties dataSource="derived" readOnly="true"/>
-					</xtce:Parameter>
-        </xtce:ParameterSet>
+            <xtce:Parameter name="TFSC_IV_I_ZpXp_0" parameterTypeRef="TFSC_IV_I_Type"/>
+			<xtce:Parameter name="TFSC_IV_V_ZpXp_0" parameterTypeRef="TFSC_IV_V_Type"/>
+            <xtce:Parameter name="TFSC_IV_I_ZpXp_1" parameterTypeRef="TFSC_IV_I_Type"/>
+			<xtce:Parameter name="TFSC_IV_V_ZpXp_1" parameterTypeRef="TFSC_IV_V_Type"/>
+			<xtce:Parameter name="TFSC_IV_I_ZpXp_2" parameterTypeRef="TFSC_IV_I_Type"/>
+			<xtce:Parameter name="TFSC_IV_V_ZpXp_2" parameterTypeRef="TFSC_IV_V_Type"/>
+			<xtce:Parameter name="TFSC_IV_I_ZpXp_3" parameterTypeRef="TFSC_IV_I_Type"/>
+			<xtce:Parameter name="TFSC_IV_V_ZpXp_3" parameterTypeRef="TFSC_IV_V_Type"/>
+            <xtce:Parameter name="TFSC_IV_I_ZpXp_4" parameterTypeRef="TFSC_IV_I_Type"/>
+			<xtce:Parameter name="TFSC_IV_V_ZpXp_4" parameterTypeRef="TFSC_IV_V_Type"/>
+			<xtce:Parameter name="TFSC_IV_I_ZpXp_5" parameterTypeRef="TFSC_IV_I_Type"/>
+			<xtce:Parameter name="TFSC_IV_V_ZpXp_5" parameterTypeRef="TFSC_IV_V_Type"/>
+			<xtce:Parameter name="TFSC_IV_I_ZpXp_6" parameterTypeRef="TFSC_IV_I_Type"/>
+			<xtce:Parameter name="TFSC_IV_V_ZpXp_6" parameterTypeRef="TFSC_IV_V_Type"/>
+			<xtce:Parameter name="TFSC_IV_I_ZpXp_7" parameterTypeRef="TFSC_IV_I_Type"/>
+			<xtce:Parameter name="TFSC_IV_V_ZpXp_7" parameterTypeRef="TFSC_IV_V_Type"/>
+			
+			<xtce:Parameter name="TFSC_IV_I_ZpXm_0" parameterTypeRef="TFSC_IV_I_Type"/>
+			<xtce:Parameter name="TFSC_IV_V_ZpXm_0" parameterTypeRef="TFSC_IV_V_Type"/>
+            <xtce:Parameter name="TFSC_IV_I_ZpXm_1" parameterTypeRef="TFSC_IV_I_Type"/>
+			<xtce:Parameter name="TFSC_IV_V_ZpXm_1" parameterTypeRef="TFSC_IV_V_Type"/>
+			<xtce:Parameter name="TFSC_IV_I_ZpXm_2" parameterTypeRef="TFSC_IV_I_Type"/>
+			<xtce:Parameter name="TFSC_IV_V_ZpXm_2" parameterTypeRef="TFSC_IV_V_Type"/>
+			<xtce:Parameter name="TFSC_IV_I_ZpXm_3" parameterTypeRef="TFSC_IV_I_Type"/>
+			<xtce:Parameter name="TFSC_IV_V_ZpXm_3" parameterTypeRef="TFSC_IV_V_Type"/>
+            <xtce:Parameter name="TFSC_IV_I_ZpXm_4" parameterTypeRef="TFSC_IV_I_Type"/>
+			<xtce:Parameter name="TFSC_IV_V_ZpXm_4" parameterTypeRef="TFSC_IV_V_Type"/>
+			<xtce:Parameter name="TFSC_IV_I_ZpXm_5" parameterTypeRef="TFSC_IV_I_Type"/>
+			<xtce:Parameter name="TFSC_IV_V_ZpXm_5" parameterTypeRef="TFSC_IV_V_Type"/>
+			<xtce:Parameter name="TFSC_IV_I_ZpXm_6" parameterTypeRef="TFSC_IV_I_Type"/>
+			<xtce:Parameter name="TFSC_IV_V_ZpXm_6" parameterTypeRef="TFSC_IV_V_Type"/>
+			<xtce:Parameter name="TFSC_IV_I_ZpXm_7" parameterTypeRef="TFSC_IV_I_Type"/>
+			<xtce:Parameter name="TFSC_IV_V_ZpXm_7" parameterTypeRef="TFSC_IV_V_Type"/>
 
+		</xtce:ParameterSet>
         <xtce:ContainerSet>
 			
-			<xtce:SequenceContainer name="PayloadFrame" shortDescription="Delfi-C3 Payload frame">
+			<xtce:SequenceContainer name="Downlink" shortDescription="Delfi-C3 Downlink header">
 				<xtce:EntryList>
 					<xtce:ParameterRefEntry parameterRef="AX25Header"/>
-					<xtce:ParameterRefEntry parameterRef="PartialBootCounter"/>
 					<xtce:ParameterRefEntry parameterRef="BootCounter"/>
-					<!--xtce:ParameterRefEntry parameterRef="FrameID"/-->
-					<xtce:ContainerRefEntry containerRef="PayloadFrameContent"/> 
+					<xtce:ParameterRefEntry parameterRef="FrameNumber"/>
+					<xtce:ParameterRefEntry parameterRef="FrameIDPadding"/>
+					<xtce:ParameterRefEntry parameterRef="FrameID"/>
+					<xtce:ContainerRefEntry containerRef="PayloadFrame"/>
 				</xtce:EntryList>
-				</xtce:SequenceContainer>
+			</xtce:SequenceContainer>
 
-            <xtce:SequenceContainer name="PayloadFrameContent" abstract="true">
+            <xtce:SequenceContainer name="PayloadFrame" abstract="true" shortDescription="Delfi-C3 Payload frame">
                 <xtce:EntryList>
-                	<!--xtce:ArrayParameterRefEntry parameterRef="IVcurve_ZpXp">
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_I_ZpXp_0"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_V_ZpXp_0"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_I_ZpXp_1"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_V_ZpXp_1"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_I_ZpXp_2"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_V_ZpXp_2"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_I_ZpXp_3"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_V_ZpXp_3"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_I_ZpXp_4"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_V_ZpXp_4"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_I_ZpXp_5"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_V_ZpXp_5"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_I_ZpXp_6"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_V_ZpXp_6"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_I_ZpXp_7"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_V_ZpXp_7"/>
+					
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_I_ZpXm_0"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_V_ZpXm_0"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_I_ZpXm_1"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_V_ZpXm_1"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_I_ZpXm_2"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_V_ZpXm_2"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_I_ZpXm_3"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_V_ZpXm_3"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_I_ZpXm_4"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_V_ZpXm_4"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_I_ZpXm_5"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_V_ZpXm_5"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_I_ZpXm_6"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_V_ZpXm_6"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_I_ZpXm_7"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_V_ZpXm_7"/>
+                	<!--xtce:ArrayParameterRefEntry parameterRef="TFSC_IV_ZpXp">
+						<xtce:DimensionList>
+							<xtce:Size>
+								<xtce:FixedValue>8</xtce:FixedValue>
+							</xtce:Size>
+						</xtce:DimensionList>
+					</xtce:ArrayParameterRefEntry>
+                    
+                    <xtce:ArrayParameterRefEntry parameterRef="TFSC_IV_Zminus">
 						<xtce:DimensionList>
 							<xtce:Size>
 								<xtce:FixedValue>8</xtce:FixedValue>
 							</xtce:Size>
 						</xtce:DimensionList>
 					</xtce:ArrayParameterRefEntry-->
+
                     
-                    <xtce:ParameterRefEntry parameterRef="IVcurve_ZpXp0"/>
-                    <xtce:ParameterRefEntry parameterRef="IVcurve_ZpXp1"/>
-                    <xtce:ParameterRefEntry parameterRef="IVcurve_ZpXp2"/>
-                    <xtce:ParameterRefEntry parameterRef="IVcurve_ZpXp3"/>
-                    <xtce:ParameterRefEntry parameterRef="IVcurve_ZpXp4"/>
-                    <xtce:ParameterRefEntry parameterRef="IVcurve_ZpXp5"/>
-                    <xtce:ParameterRefEntry parameterRef="IVcurve_ZpXp6"/>
-                    <xtce:ParameterRefEntry parameterRef="IVcurve_ZpXp7"/>
                     
-                    <xtce:ParameterRefEntry parameterRef="BootCounter"/>
-                    <xtce:ParameterRefEntry parameterRef="Padding"/>
-                    <!--xtce:ParameterRefEntry parameterRef="SequenceCounter"/>
-                    <xtce:ParameterRefEntry parameterRef="FrameID"/>
-                    <xtce:ParameterRefEntry parameterRef="SuccesfulBootCounter"/>
-                    <xtce:ParameterRefEntry parameterRef="ASCIIByte5"/>
-                    <xtce:ParameterRefEntry parameterRef="ASCIIByte6"/>
-                    <xtce:ParameterRefEntry parameterRef="FillerBit"/-->
-                    <xtce:ParameterRefEntry parameterRef="SubsystemID"/>
-                    <xtce:ParameterRefEntry parameterRef="EventID"/>
                 </xtce:EntryList>
             </xtce:SequenceContainer>
-            <xtce:SequenceContainer name="SENSOR_X_EVENT_Y">
-                <xtce:EntryList>
-                    <xtce:ParameterRefEntry parameterRef="NumberOfDataBytesFollowing"/>
-                    <xtce:ParameterRefEntry parameterRef="Samples">
-                        <xtce:RepeatEntry>
-                            <xtce:Count>
-                                <xtce:FixedValue>4</xtce:FixedValue>
-                            </xtce:Count>
-                        </xtce:RepeatEntry>
-                    </xtce:ParameterRefEntry>
-                </xtce:EntryList>
-            </xtce:SequenceContainer>
+
             
         </xtce:ContainerSet>
         
