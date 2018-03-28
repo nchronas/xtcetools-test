@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xtce:SpaceSystem xmlns:xtce="http://www.omg.org/space/xtce"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Delfi-C3"
+    xsi:schemaLocation="http://www.omg.org/space/xtce SpaceSystemV1.2-27Feb2014-mods.xsd"
+    shortDescription="Defines telemetry of Delfi-C3">
+    <xtce:Header version="1.0" validationStatus="Draft">
+		<xtce:AuthorSet>
+			<xtce:Author>Stefano Speretta, Delft University of Technology</xtce:Author>
+		</xtce:AuthorSet>
+		<xtce:NoteSet>
+			<xtce:Note>This files describes the full telemetry of Delfi-C3.</xtce:Note>
+		</xtce:NoteSet>
+	</xtce:Header>
+    <!-- All things pertaining to telemetry fall within the TelemetryMetaData section. -->
+    <!-- Some system level parameter type definitions in this section can be used by both telemetry and commands. -->
+    <xtce:TelemetryMetaData>
+		<xtce:ParameterTypeSet>
+		
+			<xtce:EnumeratedParameterType name="FrameIDType">
+				<xtce:UnitSet/>
+				<xtce:IntegerDataEncoding sizeInBits="2" encoding="unsigned"/>
+				<xtce:EnumerationList>
+					<xtce:Enumeration label="Payload" value="1"/>
+					<xtce:Enumeration label="Housekeeping" value="2"/>
+					<xtce:Enumeration label="Auxiliary" value="3"/>
+				</xtce:EnumerationList>
+			</xtce:EnumeratedParameterType>
+        
+            <xtce:BinaryParameterType name="Byte">
+				<xtce:UnitSet/>
+                <xtce:BinaryDataEncoding>
+                    <xtce:SizeInBits>
+                        <xtce:FixedValue>8</xtce:FixedValue>
+                    </xtce:SizeInBits>
+                </xtce:BinaryDataEncoding>
+            </xtce:BinaryParameterType>
+            
+            <xtce:BinaryParameterType name="AX25headerType">
+				<xtce:UnitSet/>
+				<xtce:BinaryDataEncoding>
+					<xtce:SizeInBits>
+						<xtce:FixedValue>128</xtce:FixedValue>
+					</xtce:SizeInBits>
+				</xtce:BinaryDataEncoding>
+			</xtce:BinaryParameterType>	
+				  
+
+
+            <!-- These define a set of generic parameter types that can be used for both telemetry and commands.    -->
+            <!-- The name reflects the encoded size of the parameter and the native size is large enough to hold it -->
+            <xtce:IntegerParameterType name="bit">
+				<xtce:UnitSet/>
+                <xtce:IntegerDataEncoding sizeInBits="1"/>
+            </xtce:IntegerParameterType>
+            <xtce:IntegerParameterType name="UInt2">
+            	<xtce:UnitSet/>
+                <xtce:IntegerDataEncoding sizeInBits="2"/>
+            </xtce:IntegerParameterType>
+            <xtce:IntegerParameterType name="UInt3">
+            	<xtce:UnitSet/>
+                <xtce:IntegerDataEncoding sizeInBits="3"/>
+            </xtce:IntegerParameterType>
+            <xtce:IntegerParameterType name="UInt4">
+            	<xtce:UnitSet/>
+                <xtce:IntegerDataEncoding sizeInBits="4"/>
+            </xtce:IntegerParameterType>
+            <xtce:IntegerParameterType name="UInt5">
+            	<xtce:UnitSet/>
+                <xtce:IntegerDataEncoding sizeInBits="5"/>
+            </xtce:IntegerParameterType>
+            <xtce:IntegerParameterType name="UInt6">
+            	<xtce:UnitSet/>
+                <xtce:IntegerDataEncoding sizeInBits="6"/>
+            </xtce:IntegerParameterType>
+            <xtce:IntegerParameterType name="UInt7">
+            	<xtce:UnitSet/>
+                <xtce:IntegerDataEncoding sizeInBits="7"/>
+            </xtce:IntegerParameterType>
+            <xtce:IntegerParameterType name="UInt8">
+            	<xtce:UnitSet/>
+                <xtce:IntegerDataEncoding sizeInBits="8"/>
+            </xtce:IntegerParameterType>
+            <xtce:IntegerParameterType name="UInt12">
+            	<xtce:UnitSet/>
+                <xtce:IntegerDataEncoding sizeInBits="12" bitOrder="leastSignificantBitFirst"/>
+            </xtce:IntegerParameterType>
+            <xtce:IntegerParameterType name="UInt16">
+            	<xtce:UnitSet/>
+                <xtce:IntegerDataEncoding sizeInBits="16"/>
+            </xtce:IntegerParameterType>
+            <xtce:IntegerParameterType name="UInt20">
+            	<xtce:UnitSet/>
+                <xtce:IntegerDataEncoding sizeInBits="20"/>
+            </xtce:IntegerParameterType>
+            <xtce:IntegerParameterType name="UInt32">
+            	<xtce:UnitSet/>
+                <xtce:IntegerDataEncoding sizeInBits="32"/>
+            </xtce:IntegerParameterType>
+            <xtce:FloatParameterType name="Float32">
+            	<xtce:UnitSet/>
+            </xtce:FloatParameterType>
+            <xtce:BooleanParameterType name="Boolean">
+            	<xtce:UnitSet/>
+            </xtce:BooleanParameterType>
+            <xtce:FloatParameterType name="Battery_State_Of_Charge_Type" sizeInBits="32" shortDescription="Calculated battery state of charge">
+				<xtce:UnitSet>
+					<xtce:Unit>Percent</xtce:Unit>
+				</xtce:UnitSet>
+				<xtce:ValidRange minInclusive="0.0" maxInclusive="100.0"/>
+			</xtce:FloatParameterType>
+			
+			<xtce:IntegerParameterType name="PayloadCurrent">
+				<xtce:UnitSet/>
+                <xtce:IntegerDataEncoding sizeInBits="8"/>
+            </xtce:IntegerParameterType>
+            
+			<xtce:IntegerParameterType name="BootCounterType">
+                <xtce:UnitSet/>
+                <xtce:IntegerDataEncoding encoding="unsigned" sizeInBits="8">
+                    <!--xtce:ByteOrderList>
+                        <xtce:Byte byteSignificance="0"/>
+                        <xtce:Byte byteSignificance="1"/>
+                    </xtce:ByteOrderList-->
+                    <xtce:DefaultCalibrator>   
+					  <xtce:MathOperationCalibrator>    
+						<xtce:ParameterInstanceRefOperand parameterRef="PartialBootCounter"/>   
+						<xtce:ValueOperand>256</xtce:ValueOperand>   
+						<xtce:Operator>*</xtce:Operator>   
+						<xtce:ThisParameterOperand/>   
+						<xtce:Operator>+</xtce:Operator>   
+					  </xtce:MathOperationCalibrator>   
+					</xtce:DefaultCalibrator>   
+
+                </xtce:IntegerDataEncoding>
+            </xtce:IntegerParameterType>
+						
+						
+									<xtce:ArrayParameterType name="pippo" arrayTypeRef="UInt8" numberOfDimensions="1"/>
+			
+			<xtce:ArrayParameterType name="Array_Dim1_Float64_Type" arrayTypeRef="Float32" numberOfDimensions="1">
+				<xtce:LongDescription>This is some calibration values for a payload device</xtce:LongDescription>
+			</xtce:ArrayParameterType>
+			
+            <!-- The following represents a bit pattern of some telemetry value using a binary type with binary data encoding.
+                 This type as defined here is not much different from the Unsigned8BitInteger type defined above except
+                 the telemetry values using this type are interpreted as hex bit patterns rather than as numbers.    -->
+        </xtce:ParameterTypeSet>
+        <!-- These are the parameters that can be used in containers. -->
+        <xtce:ParameterSet>
+            <!-- These are parameters that may be used in abstract telemetry or command containers to define system-level settings. -->
+
+            <xtce:Parameter name="BootCounter" parameterTypeRef="BootCounterType"/>
+            <xtce:Parameter name="PartialBootCounter" parameterTypeRef="UInt8"/>
+            <xtce:Parameter name="FrameID" parameterTypeRef="FrameIDType"/>
+            <xtce:Parameter name="Padding" parameterTypeRef="UInt4"/>
+            <xtce:Parameter name="SequenceCounter" parameterTypeRef="UInt20"/>
+            <xtce:Parameter name="SuccesfulBootCounter" parameterTypeRef="UInt12"/>
+            
+            <xtce:Parameter name="ASCIIByte5" parameterTypeRef="Byte"/>
+            <xtce:Parameter name="ASCIIByte6" parameterTypeRef="Byte"/>
+            <xtce:Parameter name="FillerBit" parameterTypeRef="bit"/>
+            <xtce:Parameter name="SyncByte1" parameterTypeRef="Byte"/>
+            <xtce:Parameter name="SyncByte2" parameterTypeRef="Byte"/>
+            <xtce:Parameter name="SubsystemID" parameterTypeRef="Byte"/>
+            <xtce:Parameter name="EventID" parameterTypeRef="UInt5"/>
+            <xtce:Parameter name="NumberOfDataBytesFollowing" parameterTypeRef="UInt32"/>
+            <xtce:Parameter name="NumberOfSamples" parameterTypeRef="UInt32"/>
+            <xtce:Parameter name="Samples" parameterTypeRef="Byte"/>
+            <xtce:Parameter name="AX25Header" parameterTypeRef="AX25headerType"/>
+            <!--xtce:Parameter name="IVcurve_ZpXp" parameterTypeRef="pippo"/-->
+            
+            <xtce:Parameter name="IVcurve_ZpXp0" parameterTypeRef="UInt8"/>
+            <xtce:Parameter name="IVcurve_ZpXp1" parameterTypeRef="UInt8"/>
+            <xtce:Parameter name="IVcurve_ZpXp2" parameterTypeRef="UInt8"/>
+            <xtce:Parameter name="IVcurve_ZpXp3" parameterTypeRef="UInt8"/>
+            <xtce:Parameter name="IVcurve_ZpXp4" parameterTypeRef="UInt8"/>
+            <xtce:Parameter name="IVcurve_ZpXp5" parameterTypeRef="UInt8"/>
+            <xtce:Parameter name="IVcurve_ZpXp6" parameterTypeRef="UInt8"/>
+            <xtce:Parameter name="IVcurve_ZpXp7" parameterTypeRef="UInt8"/>
+            
+            
+            
+            <xtce:Parameter name="Battery_State_Of_Charge" parameterTypeRef="Battery_State_Of_Charge_Type">
+						<xtce:ParameterProperties dataSource="derived" readOnly="true"/>
+					</xtce:Parameter>
+        </xtce:ParameterSet>
+
+        <xtce:ContainerSet>
+			
+			<xtce:SequenceContainer name="PayloadFrame" shortDescription="Delfi-C3 Payload frame">
+				<xtce:EntryList>
+					<xtce:ParameterRefEntry parameterRef="AX25Header"/>
+					<xtce:ParameterRefEntry parameterRef="PartialBootCounter"/>
+					<xtce:ParameterRefEntry parameterRef="BootCounter"/>
+					<!--xtce:ParameterRefEntry parameterRef="FrameID"/-->
+					<xtce:ContainerRefEntry containerRef="PayloadFrameContent"/> 
+				</xtce:EntryList>
+				</xtce:SequenceContainer>
+
+            <xtce:SequenceContainer name="PayloadFrameContent" abstract="true">
+                <xtce:EntryList>
+                	<!--xtce:ArrayParameterRefEntry parameterRef="IVcurve_ZpXp">
+						<xtce:DimensionList>
+							<xtce:Size>
+								<xtce:FixedValue>8</xtce:FixedValue>
+							</xtce:Size>
+						</xtce:DimensionList>
+					</xtce:ArrayParameterRefEntry-->
+                    
+                    <xtce:ParameterRefEntry parameterRef="IVcurve_ZpXp0"/>
+                    <xtce:ParameterRefEntry parameterRef="IVcurve_ZpXp1"/>
+                    <xtce:ParameterRefEntry parameterRef="IVcurve_ZpXp2"/>
+                    <xtce:ParameterRefEntry parameterRef="IVcurve_ZpXp3"/>
+                    <xtce:ParameterRefEntry parameterRef="IVcurve_ZpXp4"/>
+                    <xtce:ParameterRefEntry parameterRef="IVcurve_ZpXp5"/>
+                    <xtce:ParameterRefEntry parameterRef="IVcurve_ZpXp6"/>
+                    <xtce:ParameterRefEntry parameterRef="IVcurve_ZpXp7"/>
+                    
+                    <xtce:ParameterRefEntry parameterRef="BootCounter"/>
+                    <xtce:ParameterRefEntry parameterRef="Padding"/>
+                    <!--xtce:ParameterRefEntry parameterRef="SequenceCounter"/>
+                    <xtce:ParameterRefEntry parameterRef="FrameID"/>
+                    <xtce:ParameterRefEntry parameterRef="SuccesfulBootCounter"/>
+                    <xtce:ParameterRefEntry parameterRef="ASCIIByte5"/>
+                    <xtce:ParameterRefEntry parameterRef="ASCIIByte6"/>
+                    <xtce:ParameterRefEntry parameterRef="FillerBit"/-->
+                    <xtce:ParameterRefEntry parameterRef="SubsystemID"/>
+                    <xtce:ParameterRefEntry parameterRef="EventID"/>
+                </xtce:EntryList>
+            </xtce:SequenceContainer>
+            <xtce:SequenceContainer name="SENSOR_X_EVENT_Y">
+                <xtce:EntryList>
+                    <xtce:ParameterRefEntry parameterRef="NumberOfDataBytesFollowing"/>
+                    <xtce:ParameterRefEntry parameterRef="Samples">
+                        <xtce:RepeatEntry>
+                            <xtce:Count>
+                                <xtce:FixedValue>4</xtce:FixedValue>
+                            </xtce:Count>
+                        </xtce:RepeatEntry>
+                    </xtce:ParameterRefEntry>
+                </xtce:EntryList>
+            </xtce:SequenceContainer>
+            
+        </xtce:ContainerSet>
+        
+    </xtce:TelemetryMetaData>
+</xtce:SpaceSystem>
