@@ -3,13 +3,11 @@ package org.xtce.test;
 import java.io.File;
 import java.util.BitSet;
 import java.util.List;
-import org.omg.space.xtce.CalibratorType;
 import org.xtce.toolkit.XTCEContainerContentEntry;
 import org.xtce.toolkit.XTCEContainerContentModel;
+import org.xtce.toolkit.XTCEContainerEntryValue;
 import org.xtce.toolkit.XTCEDatabase;
 import org.xtce.toolkit.XTCEFunctions;
-import org.xtce.toolkit.XTCEItemValue;
-import org.xtce.toolkit.XTCEParameter;
 import org.xtce.toolkit.XTCESpaceSystem;
 import org.xtce.toolkit.XTCETMContainer;
 
@@ -86,7 +84,18 @@ public class DelfiC3
 
             for ( XTCEContainerContentEntry entry : entries ) 
             {
-            	System.out.println(entry.getName() + ": " + entry.getValue());
+            	System.out.print(entry.getName());
+                
+                XTCEContainerEntryValue val = entry.getValue();
+                
+                if (val == null)
+                {
+                    System.out.println();
+                }
+                else
+                {
+                    System.out.println(": " + val.getCalibratedValue()+ " " + entry.getParameter().getUnits());
+                }
             }
             System.out.println();
             

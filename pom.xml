@@ -15,7 +15,7 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-    	<groupId>org.omg</groupId>
+    	<groupId>org.omg.space.xtce</groupId>
     	<artifactId>xtcetools</artifactId>
     	<version>0.1</version>
     </dependency>
