@@ -121,7 +121,11 @@
             
 			<xtce:IntegerParameterType name="UInt16">
                 <xtce:UnitSet/>
-                <xtce:IntegerDataEncoding encoding="unsigned" sizeInBits="16">
+                <xtce:IntegerDataEncoding sizeInBits="16" encoding="unsigned">
+                	<xtce:ByteOrderList>
+                        <xtce:Byte byteSignificance="0"/>
+                        <xtce:Byte byteSignificance="1"/>
+                    </xtce:ByteOrderList>
 				<!-- swap the two bytes of a short: this is needed because ByteOrderList is not supported -->  
                     <xtce:DefaultCalibrator>   
 					  <xtce:MathOperationCalibrator>    
@@ -139,7 +143,7 @@
                 </xtce:IntegerDataEncoding>
             </xtce:IntegerParameterType>
 						
-			<xtce:IntegerParameterType name="TFSC_IV_I_Type">
+			<xtce:FloatParameterType name="TFSC_IV_I_Type">
             	<xtce:UnitSet>
 					<xtce:Unit>A</xtce:Unit>
 				</xtce:UnitSet>
@@ -152,9 +156,9 @@
 					  </xtce:MathOperationCalibrator>   
 					</xtce:DefaultCalibrator> 
                 </xtce:IntegerDataEncoding>
-            </xtce:IntegerParameterType>	
+            </xtce:FloatParameterType>	
             
-            <xtce:IntegerParameterType name="TFSC_IV_V_Type">
+            <xtce:FloatParameterType name="TFSC_IV_V_Type">
             	<xtce:UnitSet>
 					<xtce:Unit>V</xtce:Unit>
 				</xtce:UnitSet>
@@ -163,16 +167,30 @@
 					<xtce:MathOperationCalibrator>    
 						<xtce:ThisParameterOperand/>   
 						<xtce:ValueOperand>0.008</xtce:ValueOperand>   
-						<xtce:Operator>*</xtce:Operator>    
+						<xtce:Operator>*</xtce:Operator> 
 					  </xtce:MathOperationCalibrator>   
 					</xtce:DefaultCalibrator> 
                 </xtce:IntegerDataEncoding>
-            </xtce:IntegerParameterType>	
+            </xtce:FloatParameterType>	
             	
 			<xtce:AggregateParameterType name="TFSC_IV_Type" shortDescription="TFSC IV curve array element">
 				<xtce:MemberList>
-					<xtce:Member name="I" typeRef="TFSC_IV_I_Type"/>
-					<xtce:Member name="V" typeRef="TFSC_IV_V_Type"/>
+					<xtce:Member name="I0" typeRef="TFSC_IV_I_Type"/>
+					<xtce:Member name="V0" typeRef="TFSC_IV_V_Type"/>
+					<xtce:Member name="I1" typeRef="TFSC_IV_I_Type"/>
+					<xtce:Member name="V1" typeRef="TFSC_IV_V_Type"/>
+					<xtce:Member name="I2" typeRef="TFSC_IV_I_Type"/>
+					<xtce:Member name="V2" typeRef="TFSC_IV_V_Type"/>
+					<xtce:Member name="I3" typeRef="TFSC_IV_I_Type"/>
+					<xtce:Member name="V3" typeRef="TFSC_IV_V_Type"/>
+					<xtce:Member name="I4" typeRef="TFSC_IV_I_Type"/>
+					<xtce:Member name="V4" typeRef="TFSC_IV_V_Type"/>
+					<xtce:Member name="I5" typeRef="TFSC_IV_I_Type"/>
+					<xtce:Member name="V5" typeRef="TFSC_IV_V_Type"/>
+					<xtce:Member name="I6" typeRef="TFSC_IV_I_Type"/>
+					<xtce:Member name="V6" typeRef="TFSC_IV_V_Type"/>
+					<xtce:Member name="I7" typeRef="TFSC_IV_I_Type"/>
+					<xtce:Member name="V7" typeRef="TFSC_IV_V_Type"/>
 				</xtce:MemberList>
 			</xtce:AggregateParameterType>
 			
@@ -191,41 +209,12 @@
 			<xtce:Parameter name="FrameID" parameterTypeRef="FrameIDType"/>
 			
             <xtce:Parameter name="AX25Header" parameterTypeRef="AX25headerType"/>
-            
-            <xtce:Parameter name="TFSC_IV_I_ZpXp_0" parameterTypeRef="TFSC_IV_I_Type"/>
-			<xtce:Parameter name="TFSC_IV_V_ZpXp_0" parameterTypeRef="TFSC_IV_V_Type"/>
-            <xtce:Parameter name="TFSC_IV_I_ZpXp_1" parameterTypeRef="TFSC_IV_I_Type"/>
-			<xtce:Parameter name="TFSC_IV_V_ZpXp_1" parameterTypeRef="TFSC_IV_V_Type"/>
-			<xtce:Parameter name="TFSC_IV_I_ZpXp_2" parameterTypeRef="TFSC_IV_I_Type"/>
-			<xtce:Parameter name="TFSC_IV_V_ZpXp_2" parameterTypeRef="TFSC_IV_V_Type"/>
-			<xtce:Parameter name="TFSC_IV_I_ZpXp_3" parameterTypeRef="TFSC_IV_I_Type"/>
-			<xtce:Parameter name="TFSC_IV_V_ZpXp_3" parameterTypeRef="TFSC_IV_V_Type"/>
-            <xtce:Parameter name="TFSC_IV_I_ZpXp_4" parameterTypeRef="TFSC_IV_I_Type"/>
-			<xtce:Parameter name="TFSC_IV_V_ZpXp_4" parameterTypeRef="TFSC_IV_V_Type"/>
-			<xtce:Parameter name="TFSC_IV_I_ZpXp_5" parameterTypeRef="TFSC_IV_I_Type"/>
-			<xtce:Parameter name="TFSC_IV_V_ZpXp_5" parameterTypeRef="TFSC_IV_V_Type"/>
-			<xtce:Parameter name="TFSC_IV_I_ZpXp_6" parameterTypeRef="TFSC_IV_I_Type"/>
-			<xtce:Parameter name="TFSC_IV_V_ZpXp_6" parameterTypeRef="TFSC_IV_V_Type"/>
-			<xtce:Parameter name="TFSC_IV_I_ZpXp_7" parameterTypeRef="TFSC_IV_I_Type"/>
-			<xtce:Parameter name="TFSC_IV_V_ZpXp_7" parameterTypeRef="TFSC_IV_V_Type"/>
 			
-			<xtce:Parameter name="TFSC_IV_I_ZpXm_0" parameterTypeRef="TFSC_IV_I_Type"/>
-			<xtce:Parameter name="TFSC_IV_V_ZpXm_0" parameterTypeRef="TFSC_IV_V_Type"/>
-            <xtce:Parameter name="TFSC_IV_I_ZpXm_1" parameterTypeRef="TFSC_IV_I_Type"/>
-			<xtce:Parameter name="TFSC_IV_V_ZpXm_1" parameterTypeRef="TFSC_IV_V_Type"/>
-			<xtce:Parameter name="TFSC_IV_I_ZpXm_2" parameterTypeRef="TFSC_IV_I_Type"/>
-			<xtce:Parameter name="TFSC_IV_V_ZpXm_2" parameterTypeRef="TFSC_IV_V_Type"/>
-			<xtce:Parameter name="TFSC_IV_I_ZpXm_3" parameterTypeRef="TFSC_IV_I_Type"/>
-			<xtce:Parameter name="TFSC_IV_V_ZpXm_3" parameterTypeRef="TFSC_IV_V_Type"/>
-            <xtce:Parameter name="TFSC_IV_I_ZpXm_4" parameterTypeRef="TFSC_IV_I_Type"/>
-			<xtce:Parameter name="TFSC_IV_V_ZpXm_4" parameterTypeRef="TFSC_IV_V_Type"/>
-			<xtce:Parameter name="TFSC_IV_I_ZpXm_5" parameterTypeRef="TFSC_IV_I_Type"/>
-			<xtce:Parameter name="TFSC_IV_V_ZpXm_5" parameterTypeRef="TFSC_IV_V_Type"/>
-			<xtce:Parameter name="TFSC_IV_I_ZpXm_6" parameterTypeRef="TFSC_IV_I_Type"/>
-			<xtce:Parameter name="TFSC_IV_V_ZpXm_6" parameterTypeRef="TFSC_IV_V_Type"/>
-			<xtce:Parameter name="TFSC_IV_I_ZpXm_7" parameterTypeRef="TFSC_IV_I_Type"/>
-			<xtce:Parameter name="TFSC_IV_V_ZpXm_7" parameterTypeRef="TFSC_IV_V_Type"/>
-
+			<xtce:Parameter name="TFSC_IV_ZpXm" parameterTypeRef="TFSC_IV_Type"/>
+			<xtce:Parameter name="TFSC_IV_ZpXp" parameterTypeRef="TFSC_IV_Type"/>
+			<xtce:Parameter name="TFSC_IV_ZmXm" parameterTypeRef="TFSC_IV_Type"/>
+			<xtce:Parameter name="TFSC_IV_ZmXp" parameterTypeRef="TFSC_IV_Type"/>
+			
 		</xtce:ParameterSet>
         <xtce:ContainerSet>
 			
@@ -242,39 +231,12 @@
 
             <xtce:SequenceContainer name="PayloadFrame" abstract="true" shortDescription="Delfi-C3 Payload frame">
                 <xtce:EntryList>
-					<xtce:ParameterRefEntry parameterRef="TFSC_IV_I_ZpXp_0"/>
-					<xtce:ParameterRefEntry parameterRef="TFSC_IV_V_ZpXp_0"/>
-					<xtce:ParameterRefEntry parameterRef="TFSC_IV_I_ZpXp_1"/>
-					<xtce:ParameterRefEntry parameterRef="TFSC_IV_V_ZpXp_1"/>
-					<xtce:ParameterRefEntry parameterRef="TFSC_IV_I_ZpXp_2"/>
-					<xtce:ParameterRefEntry parameterRef="TFSC_IV_V_ZpXp_2"/>
-					<xtce:ParameterRefEntry parameterRef="TFSC_IV_I_ZpXp_3"/>
-					<xtce:ParameterRefEntry parameterRef="TFSC_IV_V_ZpXp_3"/>
-					<xtce:ParameterRefEntry parameterRef="TFSC_IV_I_ZpXp_4"/>
-					<xtce:ParameterRefEntry parameterRef="TFSC_IV_V_ZpXp_4"/>
-					<xtce:ParameterRefEntry parameterRef="TFSC_IV_I_ZpXp_5"/>
-					<xtce:ParameterRefEntry parameterRef="TFSC_IV_V_ZpXp_5"/>
-					<xtce:ParameterRefEntry parameterRef="TFSC_IV_I_ZpXp_6"/>
-					<xtce:ParameterRefEntry parameterRef="TFSC_IV_V_ZpXp_6"/>
-					<xtce:ParameterRefEntry parameterRef="TFSC_IV_I_ZpXp_7"/>
-					<xtce:ParameterRefEntry parameterRef="TFSC_IV_V_ZpXp_7"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_ZpXm"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_ZpXp"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_ZmXm"/>
+					<xtce:ParameterRefEntry parameterRef="TFSC_IV_ZmXp"/>
 					
-					<xtce:ParameterRefEntry parameterRef="TFSC_IV_I_ZpXm_0"/>
-					<xtce:ParameterRefEntry parameterRef="TFSC_IV_V_ZpXm_0"/>
-					<xtce:ParameterRefEntry parameterRef="TFSC_IV_I_ZpXm_1"/>
-					<xtce:ParameterRefEntry parameterRef="TFSC_IV_V_ZpXm_1"/>
-					<xtce:ParameterRefEntry parameterRef="TFSC_IV_I_ZpXm_2"/>
-					<xtce:ParameterRefEntry parameterRef="TFSC_IV_V_ZpXm_2"/>
-					<xtce:ParameterRefEntry parameterRef="TFSC_IV_I_ZpXm_3"/>
-					<xtce:ParameterRefEntry parameterRef="TFSC_IV_V_ZpXm_3"/>
-					<xtce:ParameterRefEntry parameterRef="TFSC_IV_I_ZpXm_4"/>
-					<xtce:ParameterRefEntry parameterRef="TFSC_IV_V_ZpXm_4"/>
-					<xtce:ParameterRefEntry parameterRef="TFSC_IV_I_ZpXm_5"/>
-					<xtce:ParameterRefEntry parameterRef="TFSC_IV_V_ZpXm_5"/>
-					<xtce:ParameterRefEntry parameterRef="TFSC_IV_I_ZpXm_6"/>
-					<xtce:ParameterRefEntry parameterRef="TFSC_IV_V_ZpXm_6"/>
-					<xtce:ParameterRefEntry parameterRef="TFSC_IV_I_ZpXm_7"/>
-					<xtce:ParameterRefEntry parameterRef="TFSC_IV_V_ZpXm_7"/>
+					
                 	<!--xtce:ArrayParameterRefEntry parameterRef="TFSC_IV_ZpXp">
 						<xtce:DimensionList>
 							<xtce:Size>
