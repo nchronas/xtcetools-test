@@ -252,6 +252,172 @@
                 </xtce:IntegerDataEncoding>
             </xtce:FloatParameterType>	
 
+            <!--          Z_AWSS           -->
+            
+            <xtce:EnumeratedParameterType name="sun_presence_Type">
+                <!--NOT SURE ABOUT Type-->
+                <xtce:UnitSet/>
+                <xtce:IntegerDataEncoding sizeInBits="1" encoding="unsigned"/>
+                <xtce:EnumerationList>
+                    <xtce:Enumeration label="2=no" value="0"/>
+                    <xtce:Enumeration label="2=yes" value="1"/>
+                </xtce:EnumerationList>
+            </xtce:EnumeratedParameterType>
+
+            <xtce:EnumeratedParameterType name="sample_number_Type">
+                <!--NOT SURE ABOUT Type-->
+                <xtce:UnitSet/>
+                <xtce:IntegerDataEncoding sizeInBits="2" encoding="unsigned"/>
+                <xtce:EnumerationList>
+                    <xtce:Enumeration label="10" value="0"/>
+                    <xtce:Enumeration label="10" value="1"/>
+                </xtce:EnumerationList>
+            </xtce:EnumeratedParameterType>
+
+            <xtce:EnumeratedParameterType name="receiver_status_Type">
+                <!--NOT SURE ABOUT Type-->
+                <xtce:UnitSet/>
+                <xtce:IntegerDataEncoding sizeInBits="1" encoding="unsigned"/>
+                <xtce:EnumerationList>
+                    <xtce:Enumeration label="2=OK" value="0"/>
+                    <xtce:Enumeration label="2=start-up" value="1"/>
+                </xtce:EnumerationList>
+            </xtce:EnumeratedParameterType>
+
+            <xtce:EnumeratedParameterType name="sensor_status_Type">
+                <!--NOT SURE ABOUT Type-->
+                <xtce:UnitSet/>
+                <xtce:IntegerDataEncoding sizeInBits="1" encoding="unsigned"/>
+                <xtce:EnumerationList>
+                    <xtce:Enumeration label="2=OK" value="0"/>
+                    <xtce:Enumeration label="2=not Ok" value="1"/>
+                </xtce:EnumerationList>
+            </xtce:EnumeratedParameterType>
+           
+            <xtce:EnumeratedParameterType name="sensor_ID_Type">
+                <!--NOT SURE ABOUT Type-->
+                <xtce:UnitSet/>
+                <xtce:IntegerDataEncoding sizeInBits="3" encoding="unsigned"/>
+                <xtce:EnumerationList>
+                    <xtce:Enumeration label="10=AWSS_Zp" value="1"/>
+                    <xtce:Enumeration label="10=AWSS_Zm" value="2"/>
+                </xtce:EnumerationList>
+            </xtce:EnumeratedParameterType>
+ 
+            <xtce:FloatParameterType name="transmission_errors_Type">
+                <xtce:UnitSet/>
+                <xtce:IntegerDataEncoding sizeInBits="8">        
+                </xtce:IntegerDataEncoding>
+            </xtce:FloatParameterType>	
+
+            <xtce:FloatParameterType name="sensor_supply_voltage_Type">
+                <xtce:UnitSet>
+                    <xtce:Unit>V</xtce:Unit>
+                </xtce:UnitSet>
+                <xtce:IntegerDataEncoding sizeInBits="8">
+                    <xtce:DefaultCalibrator> 
+                        <xtce:MathOperationCalibrator>    
+                            <xtce:ThisParameterOperand/>   
+                            <xtce:ValueOperand>0.0143</xtce:ValueOperand>   
+                            <xtce:Operator>*</xtce:Operator> 
+                        </xtce:MathOperationCalibrator>   
+                    </xtce:DefaultCalibrator> 
+                </xtce:IntegerDataEncoding>
+            </xtce:FloatParameterType>	
+
+            <xtce:FloatParameterType name="sensor_temperature_Type">
+                <xtce:UnitSet>
+                    <xtce:Unit>°C</xtce:Unit>
+                </xtce:UnitSet>
+                <xtce:IntegerDataEncoding sizeInBits="8">
+                    <xtce:DefaultCalibrator> 
+                        <xtce:MathOperationCalibrator>    
+                            <xtce:ThisParameterOperand/>   
+                            <xtce:ValueOperand>0.5</xtce:ValueOperand>   
+                            <xtce:Operator>*</xtce:Operator> 
+                            <xtce:ValueOperand>40</xtce:ValueOperand>   
+                            <xtce:Operator>-</xtce:Operator> 
+                        </xtce:MathOperationCalibrator>   
+                    </xtce:DefaultCalibrator> 
+                </xtce:IntegerDataEncoding>
+            </xtce:FloatParameterType>	
+
+            <xtce:FloatParameterType name="Q1_Type">
+                <!--NOT SURE ABOUT IT-->
+                <xtce:UnitSet/>
+                <xtce:IntegerDataEncoding sizeInBits="8">                    
+                </xtce:IntegerDataEncoding>
+            </xtce:FloatParameterType>	
+
+            <xtce:FloatParameterType name="Q1_type">
+                <!--NOT SURE ABOUT IT-->                
+                <xtce:UnitSet/>
+                <xtce:IntegerDataEncoding sizeInBits="4">                    
+                </xtce:IntegerDataEncoding>
+            </xtce:FloatParameterType>
+
+            <xtce:FloatParameterType name="Q2_type">
+                <!--NOT SURE ABOUT IT-->
+                <xtce:UnitSet/>
+                <xtce:IntegerDataEncoding sizeInBits="4">                    
+                </xtce:IntegerDataEncoding>
+            </xtce:FloatParameterType>	
+
+            <xtce:FloatParameterType name="Q2_Type">
+                <!--NOT SURE ABOUT IT-->
+                <xtce:UnitSet/>
+                <xtce:IntegerDataEncoding sizeInBits="8">                    
+                </xtce:IntegerDataEncoding>
+            </xtce:FloatParameterType>	
+
+            <xtce:FloatParameterType name="Q3_Type">
+                <!--NOT SURE ABOUT IT-->
+                <xtce:UnitSet/>
+                <xtce:IntegerDataEncoding sizeInBits="8">                    
+                </xtce:IntegerDataEncoding>
+            </xtce:FloatParameterType>
+
+            <xtce:FloatParameterType name="Q3_type">
+                <!--NOT SURE ABOUT IT-->
+                <xtce:UnitSet/>
+                <xtce:IntegerDataEncoding sizeInBits="4">                    
+                </xtce:IntegerDataEncoding>
+            </xtce:FloatParameterType>	
+
+            <xtce:FloatParameterType name="Q4_type">
+                <!--NOT SURE ABOUT IT-->
+                <xtce:UnitSet/>
+                <xtce:IntegerDataEncoding sizeInBits="4">                    
+                </xtce:IntegerDataEncoding>
+            </xtce:FloatParameterType>	
+
+            <xtce:FloatParameterType name="Q4_Type">
+                <!--NOT SURE ABOUT IT-->
+                <xtce:UnitSet/>
+                <xtce:IntegerDataEncoding sizeInBits="8">                    
+                </xtce:IntegerDataEncoding>
+            </xtce:FloatParameterType>	
+
+
+        		
+
+            <!--          time_trackers_AWSS          -->
+
+            <xtce:FloatParameterType name="time_stamp_Z_Type">
+                <xtce:UnitSet>
+                    <xtce:Unit>s</xtce:Unit>
+                </xtce:UnitSet>
+                <xtce:IntegerDataEncoding sizeInBits="4">
+                    <xtce:DefaultCalibrator> 
+                        <xtce:MathOperationCalibrator>    
+                            <xtce:ThisParameterOperand/>   
+                            <xtce:ValueOperand>0.15</xtce:ValueOperand>   
+                            <xtce:Operator>*</xtce:Operator>                            
+                        </xtce:MathOperationCalibrator>   
+                    </xtce:DefaultCalibrator> 
+                </xtce:IntegerDataEncoding>
+            </xtce:FloatParameterType>	
+
             <xtce:AggregateParameterType name="TFSC_IV_Type" shortDescription="TFSC IV curve array element">
                 <xtce:MemberList>
                     <xtce:Member name="I0" typeRef="TFSC_IV_I_Type"/>
@@ -363,6 +529,43 @@
             <xtce:Parameter name="RD_IV_V_ZmYp" parameterTypeRef="RD_IV_V_Type"/>
             <xtce:Parameter name="RD_IV_V_ZmYm" parameterTypeRef="RD_IV_V_Type"/>
             
+            <xtce:Parameter name="sun_presence_Zp" parameterTypeRef="sun_presence_Type"/>
+            <xtce:Parameter name="sample_number_Zp" parameterTypeRef="sample_number_Type"/>
+            <xtce:Parameter name="receiver_status_Zp" parameterTypeRef="receiver_status_Type"/>
+            <xtce:Parameter name="sensor_status_Zp" parameterTypeRef="sensor_status_Type"/>
+            <xtce:Parameter name="sensor_ID_Zp" parameterTypeRef="sensor_ID_Type"/>
+            <xtce:Parameter name="transmission_errors_Zp" parameterTypeRef="transmission_errors_Type"/>
+            <xtce:Parameter name="sensor_supply_voltage_Zp" parameterTypeRef="sensor_supply_voltage_Type"/>
+            <xtce:Parameter name="sensor_temperature_Zp" parameterTypeRef="sensor_temperature_Type"/>
+            <xtce:Parameter name="Q1_Zp" parameterTypeRef="Q1_Type"/>
+            <xtce:Parameter name="Q1_Zp" parameterTypeRef="Q1_type"/>
+            <xtce:Parameter name="Q2_Zp" parameterTypeRef="Q2_type"/>
+            <xtce:Parameter name="Q2_Zp" parameterTypeRef="Q2_Type"/>
+            <xtce:Parameter name="Q3_Zp" parameterTypeRef="Q3_Type"/>
+            <xtce:Parameter name="Q3_Zp" parameterTypeRef="Q3_type"/>
+            <xtce:Parameter name="Q4_Zp" parameterTypeRef="Q4_type"/>
+            <xtce:Parameter name="Q4_Zp" parameterTypeRef="Q4_Type"/>
+ 
+            <xtce:Parameter name="sun_presence_Zm" parameterTypeRef="sun_presence_Type"/>
+            <xtce:Parameter name="sample_number_Zm" parameterTypeRef="sample_number_Type"/>
+            <xtce:Parameter name="receiver_status_Zm" parameterTypeRef="receiver_status_Type"/>
+            <xtce:Parameter name="sensor_status_Zm" parameterTypeRef="sensor_status_Type"/>
+            <xtce:Parameter name="sensor_ID_Zm" parameterTypeRef="sensor_ID_Type"/>
+            <xtce:Parameter name="transmission_errors_Zm" parameterTypeRef="transmission_errors_Type"/>
+            <xtce:Parameter name="sensor_supply_voltage_Zm" parameterTypeRef="sensor_supply_voltage_Type"/>
+            <xtce:Parameter name="sensor_temperature_Zm" parameterTypeRef="sensor_temperature_Type"/>
+            <xtce:Parameter name="Q1_Zm" parameterTypeRef="Q1_Type"/>
+            <xtce:Parameter name="Q1_Zm" parameterTypeRef="Q1_type"/>
+            <xtce:Parameter name="Q2_Zm" parameterTypeRef="Q2_type"/>
+            <xtce:Parameter name="Q2_Zm" parameterTypeRef="Q2_Type"/>
+            <xtce:Parameter name="Q3_Zm" parameterTypeRef="Q3_Type"/>
+            <xtce:Parameter name="Q3_Zm" parameterTypeRef="Q3_type"/>
+            <xtce:Parameter name="Q4_Zm" parameterTypeRef="Q4_type"/>
+            <xtce:Parameter name="Q4_Zm" parameterTypeRef="Q4_Type"/>
+
+            <xtce:Parameter name="time_stamp_Zp" parameterTypeRef="time_stamp_Z_Type"/>
+            <xtce:Parameter name="time_stamp_Zm" parameterTypeRef="time_stamp_Z_Type"/>
+
             <!--xtce:Parameter name="PICStatus" parameterTypeRef="PICStatusArray"/-->
             <xtce:Parameter name="PICStatus_EMP" parameterTypeRef="PICStatusType"/>
             <xtce:Parameter name="PICStatus_AWP" parameterTypeRef="PICStatusType"/>
@@ -496,6 +699,43 @@
                     <xtce:ParameterRefEntry parameterRef="RD_IV_V_ZpXp"/>
                     <xtce:ParameterRefEntry parameterRef="RD_IV_V_ZmYp"/>
                     <xtce:ParameterRefEntry parameterRef="RD_IV_V_ZmYm"/>
+
+                    <xtce:ParameterRefEntry parameterRef="sun_presence_Zp"/>
+                    <xtce:ParameterRefEntry parameterRef="sample_number_Zp"/>
+                    <xtce:ParameterRefEntry parameterRef="receiver_status_Zp"/>
+                    <xtce:ParameterRefEntry parameterRef="sensor_status_Zp"/>
+                    <xtce:ParameterRefEntry parameterRef="sensor_ID_Zp"/>
+                    <xtce:ParameterRefEntry parameterRef="transmission_errors_Zp"/>
+                    <xtce:ParameterRefEntry parameterRef="sensor_supply_voltage_Zp"/>
+                    <xtce:ParameterRefEntry parameterRef="sensor_temperature_Zp"/>
+                    <xtce:ParameterRefEntry parameterRef="Q1_Zp"/>
+                    <xtce:ParameterRefEntry parameterRef="Q1_Zp"/>
+                    <xtce:ParameterRefEntry parameterRef="Q2_Zp"/>
+                    <xtce:ParameterRefEntry parameterRef="Q2_Zp"/>
+                    <xtce:ParameterRefEntry parameterRef="Q3_Zp"/>
+                    <xtce:ParameterRefEntry parameterRef="Q3_Zp"/>
+                    <xtce:ParameterRefEntry parameterRef="Q4_Zp"/>
+                    <xtce:ParameterRefEntry parameterRef="Q4_Zp"/>
+
+                    <xtce:ParameterRefEntry parameterRef="sun_presence_Zm"/>
+                    <xtce:ParameterRefEntry parameterRef="sample_number_Zm"/>
+                    <xtce:ParameterRefEntry parameterRef="receiver_status_Zm"/>
+                    <xtce:ParameterRefEntry parameterRef="sensor_status_Zm"/>
+                    <xtce:ParameterRefEntry parameterRef="sensor_ID_Zm"/>
+                    <xtce:ParameterRefEntry parameterRef="transmission_errors_Zm"/>
+                    <xtce:ParameterRefEntry parameterRef="sensor_supply_voltage_Zm"/>
+                    <xtce:ParameterRefEntry parameterRef="sensor_temperature_Zm"/>
+                    <xtce:ParameterRefEntry parameterRef="Q1_Zm"/>
+                    <xtce:ParameterRefEntry parameterRef="Q1_Zm"/>
+                    <xtce:ParameterRefEntry parameterRef="Q2_Zm"/>
+                    <xtce:ParameterRefEntry parameterRef="Q2_Zm"/>
+                    <xtce:ParameterRefEntry parameterRef="Q3_Zm"/>
+                    <xtce:ParameterRefEntry parameterRef="Q3_Zm"/>
+                    <xtce:ParameterRefEntry parameterRef="Q4_Zm"/>
+                    <xtce:ParameterRefEntry parameterRef="Q4_Zm"/>
+
+                    <xtce:ParameterRefEntry parameterRef="time_stamp_Zp"/>
+                    <xtce:ParameterRefEntry parameterRef="time_stamp_Zm"/>
 
                 </xtce:EntryList>
                 <!--xtce:BaseContainer containerRef="Downlink">
