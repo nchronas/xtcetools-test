@@ -566,7 +566,6 @@
             <xtce:Parameter name="time_stamp_Zp" parameterTypeRef="time_stamp_Z_Type"/>
             <xtce:Parameter name="time_stamp_Zm" parameterTypeRef="time_stamp_Z_Type"/>
 
-            <!--xtce:Parameter name="PICStatus" parameterTypeRef="PICStatusArray"/-->
             <xtce:Parameter name="PICStatus_EMP" parameterTypeRef="PICStatusType"/>
             <xtce:Parameter name="PICStatus_AWP" parameterTypeRef="PICStatusType"/>
             <xtce:Parameter name="PICStatus_RCP2" parameterTypeRef="PICStatusType"/>
@@ -638,6 +637,7 @@
                     <xtce:ParameterRefEntry parameterRef="PICStatus_EMP"/>
                     <xtce:ParameterRefEntry parameterRef="LastRxdCmd_RXid"/>
                     <xtce:ParameterRefEntry parameterRef="succesful_bootCounter_partial"/>
+                    <!-- Check the sequence, it might not be correct -->
                     <xtce:ParameterRefEntry parameterRef="PICStatus_AWP"/>
                     <xtce:ParameterRefEntry parameterRef="PICStatus_RCP2"/>
                     <xtce:ParameterRefEntry parameterRef="PICStatus_RCP1"/>
@@ -658,6 +658,7 @@
                     <xtce:ParameterRefEntry parameterRef="LastRxdCmd"/>
                     <xtce:ParameterRefEntry parameterRef="LastExeCmd"/>
                     
+                    <!-- Check the sequence, it might not be correct -->
                     <xtce:ParameterRefEntry parameterRef="deployStatusVector_SP_ZmYp"/>
                     <xtce:ParameterRefEntry parameterRef="deployStatusVector_SP_ZmYm"/>
                     <xtce:ParameterRefEntry parameterRef="deployStatusVector_MAB_ZmXm"/>
