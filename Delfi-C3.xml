@@ -493,6 +493,13 @@
                 </xtce:IntegerDataEncoding>
             </xtce:FloatParameterType>
             
+            <xtce:FloatParameterType name="test_Type" sizeInBits="32" shortDescription="Calculated battery state of charge">
+						<xtce:UnitSet>
+							<xtce:Unit>Percent</xtce:Unit>
+						</xtce:UnitSet>
+						
+					</xtce:FloatParameterType>
+					
             <!-- The following represents a bit pattern of some telemetry value using a binary type with binary data encoding.
             This type as defined here is not much different from the Unsigned8BitInteger type defined above except
             the telemetry values using this type are interpreted as hex bit patterns rather than as numbers.    -->
@@ -609,6 +616,9 @@
             <xtce:Parameter name="bus_V_sys" parameterTypeRef="BusVoltageType"/>
             <xtce:Parameter name="bus_V_dep" parameterTypeRef="BusVoltageType"/>
             
+            <xtce:Parameter name="test" parameterTypeRef="test_Type"/>
+
+					
         </xtce:ParameterSet>
         <xtce:ContainerSet>
 			
@@ -748,7 +758,20 @@
 
             
         </xtce:ContainerSet>
-        
+        <xtce:AlgorithmSet>
+					<xtce:MathAlgorithm name="test" shortDescription="Compute the battery state of charge">
+						<xtce:MathOperation outputParameterRef="test">
+							<xtce:ParameterInstanceRefOperand parameterRef="FrameIDPadding"/>
+							<xtce:ValueOperand>11.7</xtce:ValueOperand>
+							<xtce:Operator>-</xtce:Operator>
+							<xtce:ValueOperand>0.9</xtce:ValueOperand>
+							<xtce:Operator>/</xtce:Operator>
+							<xtce:TriggerSet>
+								<xtce:OnParameterUpdateTrigger parameterRef="FrameIDPadding"/>
+							</xtce:TriggerSet>
+						</xtce:MathOperation>
+					</xtce:MathAlgorithm>
+				</xtce:AlgorithmSet>
     </xtce:TelemetryMetaData>
 </xtce:SpaceSystem>
 			

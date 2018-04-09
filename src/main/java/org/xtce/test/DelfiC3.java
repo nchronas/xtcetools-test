@@ -9,6 +9,7 @@ import org.xtce.toolkit.XTCEContainerEntryValue;
 import org.xtce.toolkit.XTCEDatabase;
 import org.xtce.toolkit.XTCEDatabaseException;
 import org.xtce.toolkit.XTCEFunctions;
+import org.xtce.toolkit.XTCEParameter;
 import org.xtce.toolkit.XTCESpaceSystem;
 import org.xtce.toolkit.XTCETMContainer;
 
@@ -88,11 +89,10 @@ public class DelfiC3
 
     static void processFrame(XTCEDatabase db_, XTCETMContainer container, byte[] data) throws XTCEDatabaseException 
     {
-        BitSet bits = XTCEFunctions.getBitSetFromStreamByteArray(data);
-
-        XTCEContainerContentModel model = db_.processContainer(container, bits);
+        XTCEContainerContentModel model = db_.processContainer(container, data);
 
         List<XTCEContainerContentEntry> entries = model.getContentList();
+
 
         for (XTCEContainerContentEntry entry : entries) 
         {
