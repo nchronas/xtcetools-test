@@ -16,7 +16,7 @@
     <!-- Some system level parameter type definitions in this section can be used by both telemetry and commands. -->
     <xtce:TelemetryMetaData>
         <xtce:ParameterTypeSet>
-		
+
             <xtce:EnumeratedParameterType name="FrameIDType">
                 <xtce:UnitSet/>
                 <xtce:IntegerDataEncoding sizeInBits="2" encoding="unsigned"/>
@@ -170,24 +170,7 @@
                     </xtce:DefaultCalibrator> 
                 </xtce:IntegerDataEncoding>
             </xtce:FloatParameterType>	
-            	
-            <xtce:FloatParameterType name="TFSC_T_ZpXm_Type">
-                <xtce:UnitSet>
-                    <xtce:Unit>°C</xtce:Unit>
-                </xtce:UnitSet>
-                <xtce:IntegerDataEncoding sizeInBits="8">
-                    <xtce:DefaultCalibrator> 
-                        <xtce:MathOperationCalibrator>    
-                            <xtce:ThisParameterOperand/>   
-                            <xtce:ValueOperand>1.492</xtce:ValueOperand>   
-                            <xtce:Operator>*</xtce:Operator> 
-                            <xtce:ValueOperand>235</xtce:ValueOperand>   
-                            <xtce:Operator>-</xtce:Operator> 
-                        </xtce:MathOperationCalibrator>   
-                    </xtce:DefaultCalibrator> 
-                </xtce:IntegerDataEncoding>
-            </xtce:FloatParameterType>	
-           
+            		          
             <xtce:FloatParameterType name="TFSC_T_ZpXp_Type">
                 <xtce:UnitSet>
                     <xtce:Unit>°C</xtce:Unit>
@@ -204,6 +187,23 @@
                     </xtce:DefaultCalibrator> 
                 </xtce:IntegerDataEncoding>
             </xtce:FloatParameterType>	
+
+            <xtce:FloatParameterType name="TFSC_T_ZpXm_Type">
+                <xtce:UnitSet>
+                    <xtce:Unit>°C</xtce:Unit>
+                </xtce:UnitSet>
+                <xtce:IntegerDataEncoding sizeInBits="8">
+                    <xtce:DefaultCalibrator> 
+                        <xtce:MathOperationCalibrator>    
+                            <xtce:ThisParameterOperand/>   
+                            <xtce:ValueOperand>1.492</xtce:ValueOperand>   
+                            <xtce:Operator>*</xtce:Operator> 
+                            <xtce:ValueOperand>235</xtce:ValueOperand>   
+                            <xtce:Operator>-</xtce:Operator> 
+                        </xtce:MathOperationCalibrator>   
+                    </xtce:DefaultCalibrator> 
+                </xtce:IntegerDataEncoding>
+            </xtce:FloatParameterType>
 
             <xtce:FloatParameterType name="TFSC_T_ZmY_Type">
                 <xtce:UnitSet>
@@ -438,6 +438,45 @@
                     <xtce:Member name="V7" typeRef="TFSC_IV_V_Type"/>
                 </xtce:MemberList>
             </xtce:AggregateParameterType>
+
+            <xtce:AggregateParameterType name="AWSS_Type">
+                <xtce:MemberList>
+                    <xtce:Member name="sun_presence_Zp" typeRef="sun_presence_Type"/>
+                    <xtce:Member name="sample_number_Zp" typeRef="sample_number_Type"/>
+                    <xtce:Member name="receiver_status_Zp" typeRef="receiver_status_Type"/>
+                    <xtce:Member name="sensor_status_Zp" typeRef="sensor_status_Type"/>
+                    <xtce:Member name="sensor_ID_Zp" typeRef="sensor_ID_Type"/>
+                    <xtce:Member name="transmission_errors_Zp" typeRef="transmission_errors_Type"/>
+                    <xtce:Member name="sensor_supply_voltage_Zp" typeRef="sensor_supply_voltage_Type"/>
+                    <xtce:Member name="sensor_temperature_Zp" typeRef="sensor_temperature_Type"/>
+                    <xtce:Member name="Q1_Zp" typeRef="Q1_Type"/>
+                    <xtce:Member name="Q1_Zp" typeRef="Q1_type"/>
+                    <xtce:Member name="Q2_Zp" typeRef="Q2_type"/>
+                    <xtce:Member name="Q2_Zp" typeRef="Q2_Type"/>
+                    <xtce:Member name="Q3_Zp" typeRef="Q3_Type"/>
+                    <xtce:Member name="Q3_Zp" typeRef="Q3_type"/>
+                    <xtce:Member name="Q4_Zp" typeRef="Q4_type"/>
+                    <xtce:Member name="Q4_Zp" typeRef="Q4_Type"/>
+                    <xtce:Member name="sun_presence_Zm" typeRef="sun_presence_Type"/>
+                    <xtce:Member name="sample_number_Zm" typeRef="sample_number_Type"/>
+                    <xtce:Member name="receiver_status_Zm" typeRef="receiver_status_Type"/>
+                    <xtce:Member name="sensor_status_Zm" typeRef="sensor_status_Type"/>
+                    <xtce:Member name="sensor_ID_Zm" typeRef="sensor_ID_Type"/>
+                    <xtce:Member name="transmission_errors_Zm" typeRef="transmission_errors_Type"/>
+                    <xtce:Member name="sensor_supply_voltage_Zm" typeRef="sensor_supply_voltage_Type"/>
+                    <xtce:Member name="sensor_temperature_Zm" typeRef="sensor_temperature_Type"/>
+                    <xtce:Member name="Q1_Zm" typeRef="Q1_Type"/>
+                    <xtce:Member name="Q1_Zm" typeRef="Q1_type"/>
+                    <xtce:Member name="Q2_Zm" typeRef="Q2_type"/>
+                    <xtce:Member name="Q2_Zm" typeRef="Q2_Type"/>
+                    <xtce:Member name="Q3_Zm" typeRef="Q3_Type"/>
+                    <xtce:Member name="Q3_Zm" typeRef="Q3_type"/>
+                    <xtce:Member name="Q4_Zm" typeRef="Q4_type"/>
+                    <xtce:Member name="Q4_Zm" typeRef="Q4_Type"/>
+                    <xtce:Member name="time_stamp_Zp" typeRef="time_stamp_Z_Type"/>
+                    <xtce:Member name="time_stamp_Zm" typeRef="time_stamp_Z_Type"/>                   
+                </xtce:MemberList>
+            </xtce:AggregateParameterType>
 		
             <xtce:EnumeratedParameterType name="PICStatusType">
                 <xtce:UnitSet/>
@@ -493,13 +532,105 @@
                 </xtce:IntegerDataEncoding>
             </xtce:FloatParameterType>
             
-            <xtce:FloatParameterType name="test_Type" sizeInBits="32" shortDescription="Calculated battery state of charge">
-						<xtce:UnitSet>
-							<xtce:Unit>Percent</xtce:Unit>
-						</xtce:UnitSet>
-						
-					</xtce:FloatParameterType>
-					
+            <xtce:FloatParameterType name="OBC_T_Type">
+                <xtce:UnitSet>
+                    <xtce:Unit>°C</xtce:Unit>
+                </xtce:UnitSet>
+                <xtce:IntegerDataEncoding sizeInBits="8">
+                    <xtce:DefaultCalibrator> 
+                        <xtce:MathOperationCalibrator>    
+                            <xtce:ThisParameterOperand/>   
+                            <xtce:ValueOperand>0.6875</xtce:ValueOperand>   
+                            <xtce:Operator>*</xtce:Operator> 
+                            <xtce:ValueOperand>55</xtce:ValueOperand>   
+                            <xtce:Operator>-</xtce:Operator>
+                        </xtce:MathOperationCalibrator>   
+                    </xtce:DefaultCalibrator> 
+                </xtce:IntegerDataEncoding>
+            </xtce:FloatParameterType>
+
+            <xtce:FloatParameterType name="SP_I_Type">
+                <xtce:UnitSet>
+                    <xtce:Unit>A</xtce:Unit>
+                </xtce:UnitSet>
+                <xtce:IntegerDataEncoding sizeInBits="8">
+                    <xtce:DefaultCalibrator> 
+                        <xtce:MathOperationCalibrator>    
+                            <xtce:ThisParameterOperand/>   
+                            <xtce:ValueOperand>0.00195</xtce:ValueOperand>   
+                            <xtce:Operator>*</xtce:Operator> 
+                        </xtce:MathOperationCalibrator>   
+                    </xtce:DefaultCalibrator> 
+                </xtce:IntegerDataEncoding>
+            </xtce:FloatParameterType>
+
+            <xtce:FloatParameterType name="I_Type">
+                <xtce:UnitSet>
+                    <xtce:Unit>A</xtce:Unit>
+                </xtce:UnitSet>
+                <xtce:IntegerDataEncoding sizeInBits="10">
+                    <xtce:DefaultCalibrator> 
+                        <xtce:MathOperationCalibrator>    
+                            <xtce:ThisParameterOperand/>   
+                            <xtce:ValueOperand>0.000395</xtce:ValueOperand>   
+                            <xtce:Operator>*</xtce:Operator> 
+                        </xtce:MathOperationCalibrator>   
+                    </xtce:DefaultCalibrator> 
+                </xtce:IntegerDataEncoding>
+            </xtce:FloatParameterType>
+
+            <xtce:FloatParameterType name="Power_Type">
+                <xtce:UnitSet>
+                    <xtce:Unit>W</xtce:Unit>
+                </xtce:UnitSet>
+                <xtce:IntegerDataEncoding sizeInBits="10">
+                    <xtce:DefaultCalibrator> 
+                        <xtce:MathOperationCalibrator>    
+                            <!--should be like this to have the square of the parameter-->
+                            <xtce:ThisParameterOperand/>   
+                            <xtce:ThisParameterOperand/>
+                            <xtce:Operator>*</xtce:Operator>
+                            <xtce:ValueOperand>0.000478</xtce:ValueOperand>   
+                            <xtce:Operator>*</xtce:Operator> 
+                        </xtce:MathOperationCalibrator>   
+                    </xtce:DefaultCalibrator> 
+                </xtce:IntegerDataEncoding>
+            </xtce:FloatParameterType>
+
+            <xtce:FloatParameterType name="RAP_V_Type">
+                <xtce:UnitSet>
+                    <xtce:Unit>V</xtce:Unit>
+                </xtce:UnitSet>
+                <xtce:IntegerDataEncoding sizeInBits="10">
+                    <xtce:DefaultCalibrator> 
+                        <xtce:MathOperationCalibrator>    
+                            <xtce:ThisParameterOperand/>   
+                            <xtce:ValueOperand>0.00323</xtce:ValueOperand>   
+                            <xtce:Operator>*</xtce:Operator> 
+                        </xtce:MathOperationCalibrator>   
+                    </xtce:DefaultCalibrator> 
+                </xtce:IntegerDataEncoding>
+            </xtce:FloatParameterType>
+
+            <xtce:FloatParameterType name="RAP_T_Type">
+                <xtce:UnitSet>
+                    <xtce:Unit>°C</xtce:Unit>
+                </xtce:UnitSet>
+                <xtce:IntegerDataEncoding sizeInBits="10">
+                    <xtce:DefaultCalibrator> 
+                        <xtce:MathOperationCalibrator>    
+                            <xtce:ThisParameterOperand/>   
+                            <xtce:ValueOperand>0.213</xtce:ValueOperand>   
+                            <xtce:Operator>*</xtce:Operator> 
+                            <xtce:ValueOperand>68.1</xtce:ValueOperand>   
+                            <xtce:Operator>-</xtce:Operator>
+                        </xtce:MathOperationCalibrator>   
+                    </xtce:DefaultCalibrator> 
+                </xtce:IntegerDataEncoding>
+            </xtce:FloatParameterType>
+
+           
+
             <!-- The following represents a bit pattern of some telemetry value using a binary type with binary data encoding.
             This type as defined here is not much different from the Unsigned8BitInteger type defined above except
             the telemetry values using this type are interpreted as hex bit patterns rather than as numbers.    -->
@@ -516,62 +647,29 @@
 			
             <xtce:Parameter name="AX25Header" parameterTypeRef="AX25headerType"/>
 			
+            <xtce:Parameter name="TFSC_IV_ZpXp" parameterTypeRef="TFSC_IV_Type"/>            
             <xtce:Parameter name="TFSC_IV_ZpXm" parameterTypeRef="TFSC_IV_Type"/>
-            <xtce:Parameter name="TFSC_IV_ZpXp" parameterTypeRef="TFSC_IV_Type"/>
-            <xtce:Parameter name="TFSC_IV_ZmYp" parameterTypeRef="TFSC_IV_Type"/>
             <xtce:Parameter name="TFSC_IV_ZmYm" parameterTypeRef="TFSC_IV_Type"/>
-			
+            <xtce:Parameter name="TFSC_IV_ZmYp" parameterTypeRef="TFSC_IV_Type"/>            
+	
+            <xtce:Parameter name="TFSC_T_ZpXp" parameterTypeRef="TFSC_T_ZpXp_Type"/>            
             <xtce:Parameter name="TFSC_T_ZpXm" parameterTypeRef="TFSC_T_ZpXm_Type"/>
-            <xtce:Parameter name="TFSC_T_ZpXp" parameterTypeRef="TFSC_T_ZpXp_Type"/>
-            <xtce:Parameter name="TFSC_T_ZmYp" parameterTypeRef="TFSC_T_ZmY_Type"/>
-            <xtce:Parameter name="TFSC_T_ZmYm" parameterTypeRef="TFSC_T_ZmY_Type"/>
-                        
+            <xtce:Parameter name="TFSC_T_ZmYm" parameterTypeRef="TFSC_T_ZmY_Type"/>     
+            <xtce:Parameter name="TFSC_T_ZmYp" parameterTypeRef="TFSC_T_ZmY_Type"/>            
+                      
+            <xtce:Parameter name="RD_IV_V_ZpXp" parameterTypeRef="RD_IV_V_Type"/> 
+            <xtce:Parameter name="RD_IV_V_ZpXm" parameterTypeRef="RD_IV_V_Type"/> 
+            <xtce:Parameter name="RD_IV_I_ZpXp" parameterTypeRef="RD_IV_I_Type"/>          
             <xtce:Parameter name="RD_IV_I_ZpXm" parameterTypeRef="RD_IV_I_Type"/>
-            <xtce:Parameter name="RD_IV_I_ZpXp" parameterTypeRef="RD_IV_I_Type"/>
-            <xtce:Parameter name="RD_IV_I_ZmYp" parameterTypeRef="RD_IV_I_Type"/>
-            <xtce:Parameter name="RD_IV_I_ZmYm" parameterTypeRef="RD_IV_I_Type"/>
-
-            <xtce:Parameter name="RD_IV_V_ZpXm" parameterTypeRef="RD_IV_V_Type"/>
-            <xtce:Parameter name="RD_IV_V_ZpXp" parameterTypeRef="RD_IV_V_Type"/>
+           
+            <xtce:Parameter name="RD_IV_V_ZmYm" parameterTypeRef="RD_IV_V_Type"/>             
             <xtce:Parameter name="RD_IV_V_ZmYp" parameterTypeRef="RD_IV_V_Type"/>
-            <xtce:Parameter name="RD_IV_V_ZmYm" parameterTypeRef="RD_IV_V_Type"/>
+            <xtce:Parameter name="RD_IV_I_ZmYm" parameterTypeRef="RD_IV_I_Type"/>         
+            <xtce:Parameter name="RD_IV_I_ZmYp" parameterTypeRef="RD_IV_I_Type"/>
+                        
+           
+            <xtce:Parameter name="AWSS_frame" parameterTypeRef="AWSS_Type"/>
             
-            <xtce:Parameter name="sun_presence_Zp" parameterTypeRef="sun_presence_Type"/>
-            <xtce:Parameter name="sample_number_Zp" parameterTypeRef="sample_number_Type"/>
-            <xtce:Parameter name="receiver_status_Zp" parameterTypeRef="receiver_status_Type"/>
-            <xtce:Parameter name="sensor_status_Zp" parameterTypeRef="sensor_status_Type"/>
-            <xtce:Parameter name="sensor_ID_Zp" parameterTypeRef="sensor_ID_Type"/>
-            <xtce:Parameter name="transmission_errors_Zp" parameterTypeRef="transmission_errors_Type"/>
-            <xtce:Parameter name="sensor_supply_voltage_Zp" parameterTypeRef="sensor_supply_voltage_Type"/>
-            <xtce:Parameter name="sensor_temperature_Zp" parameterTypeRef="sensor_temperature_Type"/>
-            <xtce:Parameter name="Q1_Zp" parameterTypeRef="Q1_Type"/>
-            <xtce:Parameter name="Q1_Zp" parameterTypeRef="Q1_type"/>
-            <xtce:Parameter name="Q2_Zp" parameterTypeRef="Q2_type"/>
-            <xtce:Parameter name="Q2_Zp" parameterTypeRef="Q2_Type"/>
-            <xtce:Parameter name="Q3_Zp" parameterTypeRef="Q3_Type"/>
-            <xtce:Parameter name="Q3_Zp" parameterTypeRef="Q3_type"/>
-            <xtce:Parameter name="Q4_Zp" parameterTypeRef="Q4_type"/>
-            <xtce:Parameter name="Q4_Zp" parameterTypeRef="Q4_Type"/>
- 
-            <xtce:Parameter name="sun_presence_Zm" parameterTypeRef="sun_presence_Type"/>
-            <xtce:Parameter name="sample_number_Zm" parameterTypeRef="sample_number_Type"/>
-            <xtce:Parameter name="receiver_status_Zm" parameterTypeRef="receiver_status_Type"/>
-            <xtce:Parameter name="sensor_status_Zm" parameterTypeRef="sensor_status_Type"/>
-            <xtce:Parameter name="sensor_ID_Zm" parameterTypeRef="sensor_ID_Type"/>
-            <xtce:Parameter name="transmission_errors_Zm" parameterTypeRef="transmission_errors_Type"/>
-            <xtce:Parameter name="sensor_supply_voltage_Zm" parameterTypeRef="sensor_supply_voltage_Type"/>
-            <xtce:Parameter name="sensor_temperature_Zm" parameterTypeRef="sensor_temperature_Type"/>
-            <xtce:Parameter name="Q1_Zm" parameterTypeRef="Q1_Type"/>
-            <xtce:Parameter name="Q1_Zm" parameterTypeRef="Q1_type"/>
-            <xtce:Parameter name="Q2_Zm" parameterTypeRef="Q2_type"/>
-            <xtce:Parameter name="Q2_Zm" parameterTypeRef="Q2_Type"/>
-            <xtce:Parameter name="Q3_Zm" parameterTypeRef="Q3_Type"/>
-            <xtce:Parameter name="Q3_Zm" parameterTypeRef="Q3_type"/>
-            <xtce:Parameter name="Q4_Zm" parameterTypeRef="Q4_type"/>
-            <xtce:Parameter name="Q4_Zm" parameterTypeRef="Q4_Type"/>
-
-            <xtce:Parameter name="time_stamp_Zp" parameterTypeRef="time_stamp_Z_Type"/>
-            <xtce:Parameter name="time_stamp_Zm" parameterTypeRef="time_stamp_Z_Type"/>
 
             <xtce:Parameter name="PICStatus_EMP" parameterTypeRef="PICStatusType"/>
             <xtce:Parameter name="PICStatus_AWP" parameterTypeRef="PICStatusType"/>
@@ -603,7 +701,7 @@
             <xtce:Parameter name="deployStatusVector_MAB_ZmXm" parameterTypeRef="deployStatusVectorType"/>
             <xtce:Parameter name="deployStatusVector_MAB_ZmYm" parameterTypeRef="deployStatusVectorType"/>
             <xtce:Parameter name="deployStatusVector_MAB_ZmXp" parameterTypeRef="deployStatusVectorType"/>
-            <xtce:Parameter name="deployStatusVector_MAB_ZmXp" parameterTypeRef="deployStatusVectorType"/>
+            <xtce:Parameter name="deployStatusVector_MAB_ZmYp" parameterTypeRef="deployStatusVectorType"/>
             <xtce:Parameter name="deployStatusVector_SP_ZpXp" parameterTypeRef="deployStatusVectorType"/>
             <xtce:Parameter name="deployStatusVector_SP_ZpXm" parameterTypeRef="deployStatusVectorType"/>
             <xtce:Parameter name="deployStatusVector_MAB_ZpYm" parameterTypeRef="deployStatusVectorType"/>
@@ -615,10 +713,55 @@
             
             <xtce:Parameter name="bus_V_sys" parameterTypeRef="BusVoltageType"/>
             <xtce:Parameter name="bus_V_dep" parameterTypeRef="BusVoltageType"/>
-            
-            <xtce:Parameter name="test" parameterTypeRef="test_Type"/>
 
-					
+            <xtce:Parameter name="OBC_T" parameterTypeRef="OBC_T_Type"/>
+
+            <xtce:Parameter name="SP_I_ZpXp" parameterTypeRef="SP_I_Type"/>
+            <xtce:Parameter name="SP_I_ZmYm" parameterTypeRef="SP_I_Type"/>
+            <xtce:Parameter name="SP_I_ZpXm" parameterTypeRef="SP_I_Type"/>
+            <xtce:Parameter name="SP_I_ZmYp" parameterTypeRef="SP_I_Type"/>
+
+            <xtce:Parameter name="FM430_I" parameterTypeRef="I_Type"/>
+            <xtce:Parameter name="MeBo_Zp_I" parameterTypeRef="I_Type"/>
+            <xtce:Parameter name="MeBo_Zm_I" parameterTypeRef="I_Type"/>
+            <xtce:Parameter name="ComBo_I" parameterTypeRef="I_Type"/>
+            <xtce:Parameter name="RAP1_Rx_I" parameterTypeRef="I_Type"/>
+            <xtce:Parameter name="RAP1_Tx_I" parameterTypeRef="I_Type"/>
+            <xtce:Parameter name="RAP2_Rx_I" parameterTypeRef="I_Type"/>
+            <xtce:Parameter name="RAP2_Tx_I" parameterTypeRef="I_Type"/>
+
+            <xtce:Parameter name="RAP1_fwd_P" parameterTypeRef="Power_Type"/>
+            <xtce:Parameter name="RAP2_fwd_P" parameterTypeRef="Power_Type"/>
+            <xtce:Parameter name="RAP1_refl_P" parameterTypeRef="Power_Type"/>
+            <xtce:Parameter name="RAP2_refl_P" parameterTypeRef="Power_Type"/>
+            <xtce:Parameter name="RAP1_RSSI" parameterTypeRef="Power_Type"/>
+            <xtce:Parameter name="RAP2_RSSI" parameterTypeRef="Power_Type"/>
+
+            <xtce:Parameter name="RAP1_doppler_V" parameterTypeRef="RAP_V_Type"/>
+            <xtce:Parameter name="RAP2_doppler_V" parameterTypeRef="RAP_V_Type"/>
+
+            <xtce:Parameter name="RAP1_T" parameterTypeRef="RAP_T_Type"/>
+            <xtce:Parameter name="RAP2_T" parameterTypeRef="RAP_T_Type"/>
+
+            <xtce:Parameter name="AWSS_frame_1" parameterTypeRef="AWSS_Type"/>
+           
+
+            <xtce:Parameter name="AWSS_frame_2" parameterTypeRef="AWSS_Type"/>        
+
+                       
+            <xtce:Parameter name="RD_IV_V_ZpXp" parameterTypeRef="RD_IV_V_Type"/>
+            <xtce:Parameter name="RD_IV_V_ZpXm" parameterTypeRef="RD_IV_V_Type"/>
+            <xtce:Parameter name="RD_IV_I_ZpXp" parameterTypeRef="RD_IV_I_Type"/>
+            <xtce:Parameter name="RD_IV_I_ZpXm" parameterTypeRef="RD_IV_I_Type"/>            
+
+
+            <xtce:Parameter name="RD_IV_V_ZmYm" parameterTypeRef="RD_IV_V_Type"/>
+            <xtce:Parameter name="RD_IV_V_ZmYp" parameterTypeRef="RD_IV_V_Type"/>
+            <xtce:Parameter name="RD_IV_I_ZmYm" parameterTypeRef="RD_IV_I_Type"/>
+            <xtce:Parameter name="RD_IV_I_ZmYp" parameterTypeRef="RD_IV_I_Type"/>
+            
+           
+            
         </xtce:ParameterSet>
         <xtce:ContainerSet>
 			
@@ -644,7 +787,7 @@
 
             <xtce:SequenceContainer name="HousekeepingFrame" abstract="true" shortDescription="Delfi-C3 Housekeeping frame">
                 <xtce:EntryList>
-                    <xtce:ParameterRefEntry parameterRef="PICStatus_EMP"/>
+                    <xtce:ParameterRefEntry parameterRef="PICStatus_EMP"/> <!--why here?-->
                     <xtce:ParameterRefEntry parameterRef="LastRxdCmd_RXid"/>
                     <xtce:ParameterRefEntry parameterRef="succesful_bootCounter_partial"/>
                     <!-- Check the sequence, it might not be correct -->
@@ -674,7 +817,7 @@
                     <xtce:ParameterRefEntry parameterRef="deployStatusVector_MAB_ZmXm"/>
                     <xtce:ParameterRefEntry parameterRef="deployStatusVector_MAB_ZmYm"/>
                     <xtce:ParameterRefEntry parameterRef="deployStatusVector_MAB_ZmXp"/>
-                    <xtce:ParameterRefEntry parameterRef="deployStatusVector_MAB_ZmXp"/>
+                    <xtce:ParameterRefEntry parameterRef="deployStatusVector_MAB_ZmYp"/> <!--fixed-->
                     <xtce:ParameterRefEntry parameterRef="deployStatusVector_SP_ZpXp"/>
                     <xtce:ParameterRefEntry parameterRef="deployStatusVector_SP_ZpXm"/>
                     <xtce:ParameterRefEntry parameterRef="deployStatusVector_MAB_ZpYm"/>
@@ -685,69 +828,83 @@
                     
                     <xtce:ParameterRefEntry parameterRef="bus_V_sys"/>
                     <xtce:ParameterRefEntry parameterRef="bus_V_dep"/>
+
+                    <xtce:ParameterRefEntry parameterRef="OBC_T"/>
+
+                    <xtce:ParameterRefEntry parameterRef="SP_I_ZpXp"/>
+                    <xtce:ParameterRefEntry parameterRef="SP_I_ZmYm"/>
+                    <xtce:ParameterRefEntry parameterRef="SP_I_ZpXm"/>
+                    <xtce:ParameterRefEntry parameterRef="SP_I_ZmYp"/>
+
+                    <xtce:ParameterRefEntry parameterRef="FM430_I"/>
+                    <xtce:ParameterRefEntry parameterRef="MeBo_Zp_I"/>
+                    <xtce:ParameterRefEntry parameterRef="MeBo_Zm_I"/>
+                    <xtce:ParameterRefEntry parameterRef="ComBo_I"/>
+                    <xtce:ParameterRefEntry parameterRef="RAP1_Rx_I"/>
+                    <xtce:ParameterRefEntry parameterRef="RAP1_Tx_I"/>
+                    <xtce:ParameterRefEntry parameterRef="RAP2_Rx_I"/>
+                    <xtce:ParameterRefEntry parameterRef="RAP2_Tx_I"/>
+
+                    <xtce:ParameterRefEntry parameterRef="RAP1_fwd_P"/>
+                    <xtce:ParameterRefEntry parameterRef="RAP2_fwd_P"/>
+                    <xtce:ParameterRefEntry parameterRef="RAP1_refl_P"/>
+                    <xtce:ParameterRefEntry parameterRef="RAP2_refl_P"/>
+                    <xtce:ParameterRefEntry parameterRef="RAP1_RSSI"/>
+                    <xtce:ParameterRefEntry parameterRef="RAP2_RSSI"/>
+
+                    <xtce:ParameterRefEntry parameterRef="RAP1_doppler_V"/>
+                    <xtce:ParameterRefEntry parameterRef="RAP2_doppler_V"/>
+
+                    <xtce:ParameterRefEntry parameterRef="RAP1_T"/>
+                    <xtce:ParameterRefEntry parameterRef="RAP2_T"/>
+
+                    <xtce:ParameterRefEntry parameterRef="AWSS_frame_1"/>
+                    <xtce:ParameterRefEntry parameterRef="AWSS_frame_2"/>
+                    
+                    <!--fixed order-->                                
+                    <xtce:ParameterRefEntry parameterRef="RD_IV_V_ZpXp"/>
+                    <xtce:ParameterRefEntry parameterRef="RD_IV_V_ZpXm"/>
+                    <xtce:ParameterRefEntry parameterRef="RD_IV_I_ZpXp"/> 
+                    <xtce:ParameterRefEntry parameterRef="RD_IV_I_ZpXm"/>
+
+                    <xtce:ParameterRefEntry parameterRef="RD_IV_V_ZmYm"/>
+                    <xtce:ParameterRefEntry parameterRef="RD_IV_V_ZmYp"/>
+                    <xtce:ParameterRefEntry parameterRef="RD_IV_I_ZmYm"/>
+                    <xtce:ParameterRefEntry parameterRef="RD_IV_I_ZmYp"/>
+
+
+
+
+
                     
                 </xtce:EntryList>
             </xtce:SequenceContainer>
             
             <xtce:SequenceContainer name="PayloadFrame" abstract="true" shortDescription="Delfi-C3 Payload frame">
-                <xtce:EntryList>
-                    <xtce:ParameterRefEntry parameterRef="TFSC_IV_ZpXm"/>
+                <xtce:EntryList>                    
+                    <!--ORDER CHANGED-->
                     <xtce:ParameterRefEntry parameterRef="TFSC_IV_ZpXp"/>
-                    <xtce:ParameterRefEntry parameterRef="TFSC_IV_ZmYp"/>
+                    <xtce:ParameterRefEntry parameterRef="TFSC_IV_ZpXm"/>
                     <xtce:ParameterRefEntry parameterRef="TFSC_IV_ZmYm"/>
+                    <xtce:ParameterRefEntry parameterRef="TFSC_IV_ZmYp"/>
 					
-                    <xtce:ParameterRefEntry parameterRef="TFSC_T_ZpXm"/>
                     <xtce:ParameterRefEntry parameterRef="TFSC_T_ZpXp"/>
-                    <xtce:ParameterRefEntry parameterRef="TFSC_T_ZmYp"/>
+                    <xtce:ParameterRefEntry parameterRef="TFSC_T_ZpXm"/>
                     <xtce:ParameterRefEntry parameterRef="TFSC_T_ZmYm"/>
-
-                    <xtce:ParameterRefEntry parameterRef="RD_IV_I_ZpXm"/>
-                    <xtce:ParameterRefEntry parameterRef="RD_IV_I_ZpXp"/>
-                    <xtce:ParameterRefEntry parameterRef="RD_IV_I_ZmYp"/>
-                    <xtce:ParameterRefEntry parameterRef="RD_IV_I_ZmYm"/>
-
+                    <xtce:ParameterRefEntry parameterRef="TFSC_T_ZmYp"/>
+                    
+                    <!--ORDER CHANGED-->
+                    <xtce:ParameterRefEntry parameterRef="RD_IV_V_ZpXp"/> 
                     <xtce:ParameterRefEntry parameterRef="RD_IV_V_ZpXm"/>
-                    <xtce:ParameterRefEntry parameterRef="RD_IV_V_ZpXp"/>
-                    <xtce:ParameterRefEntry parameterRef="RD_IV_V_ZmYp"/>
+                    <xtce:ParameterRefEntry parameterRef="RD_IV_I_ZpXp"/>
+                    <xtce:ParameterRefEntry parameterRef="RD_IV_I_ZpXm"/>
+
                     <xtce:ParameterRefEntry parameterRef="RD_IV_V_ZmYm"/>
+                    <xtce:ParameterRefEntry parameterRef="RD_IV_V_ZmYp"/>
+                    <xtce:ParameterRefEntry parameterRef="RD_IV_I_ZmYm"/>
+                    <xtce:ParameterRefEntry parameterRef="RD_IV_I_ZmYp"/>
 
-                    <xtce:ParameterRefEntry parameterRef="sun_presence_Zp"/>
-                    <xtce:ParameterRefEntry parameterRef="sample_number_Zp"/>
-                    <xtce:ParameterRefEntry parameterRef="receiver_status_Zp"/>
-                    <xtce:ParameterRefEntry parameterRef="sensor_status_Zp"/>
-                    <xtce:ParameterRefEntry parameterRef="sensor_ID_Zp"/>
-                    <xtce:ParameterRefEntry parameterRef="transmission_errors_Zp"/>
-                    <xtce:ParameterRefEntry parameterRef="sensor_supply_voltage_Zp"/>
-                    <xtce:ParameterRefEntry parameterRef="sensor_temperature_Zp"/>
-                    <xtce:ParameterRefEntry parameterRef="Q1_Zp"/>
-                    <xtce:ParameterRefEntry parameterRef="Q1_Zp"/>
-                    <xtce:ParameterRefEntry parameterRef="Q2_Zp"/>
-                    <xtce:ParameterRefEntry parameterRef="Q2_Zp"/>
-                    <xtce:ParameterRefEntry parameterRef="Q3_Zp"/>
-                    <xtce:ParameterRefEntry parameterRef="Q3_Zp"/>
-                    <xtce:ParameterRefEntry parameterRef="Q4_Zp"/>
-                    <xtce:ParameterRefEntry parameterRef="Q4_Zp"/>
-
-                    <xtce:ParameterRefEntry parameterRef="sun_presence_Zm"/>
-                    <xtce:ParameterRefEntry parameterRef="sample_number_Zm"/>
-                    <xtce:ParameterRefEntry parameterRef="receiver_status_Zm"/>
-                    <xtce:ParameterRefEntry parameterRef="sensor_status_Zm"/>
-                    <xtce:ParameterRefEntry parameterRef="sensor_ID_Zm"/>
-                    <xtce:ParameterRefEntry parameterRef="transmission_errors_Zm"/>
-                    <xtce:ParameterRefEntry parameterRef="sensor_supply_voltage_Zm"/>
-                    <xtce:ParameterRefEntry parameterRef="sensor_temperature_Zm"/>
-                    <xtce:ParameterRefEntry parameterRef="Q1_Zm"/>
-                    <xtce:ParameterRefEntry parameterRef="Q1_Zm"/>
-                    <xtce:ParameterRefEntry parameterRef="Q2_Zm"/>
-                    <xtce:ParameterRefEntry parameterRef="Q2_Zm"/>
-                    <xtce:ParameterRefEntry parameterRef="Q3_Zm"/>
-                    <xtce:ParameterRefEntry parameterRef="Q3_Zm"/>
-                    <xtce:ParameterRefEntry parameterRef="Q4_Zm"/>
-                    <xtce:ParameterRefEntry parameterRef="Q4_Zm"/>
-
-                    <xtce:ParameterRefEntry parameterRef="time_stamp_Zp"/>
-                    <xtce:ParameterRefEntry parameterRef="time_stamp_Zm"/>
-
+                    <xtce:ParameterRefEntry parameterRef="AWSS_frame"/>
                 </xtce:EntryList>
                 <!--xtce:BaseContainer containerRef="Downlink">
                         <xtce:RestrictionCriteria>
@@ -758,20 +915,7 @@
 
             
         </xtce:ContainerSet>
-        <xtce:AlgorithmSet>
-					<xtce:MathAlgorithm name="test" shortDescription="Compute the battery state of charge">
-						<xtce:MathOperation outputParameterRef="test">
-							<xtce:ParameterInstanceRefOperand parameterRef="FrameIDPadding"/>
-							<xtce:ValueOperand>11.7</xtce:ValueOperand>
-							<xtce:Operator>-</xtce:Operator>
-							<xtce:ValueOperand>0.9</xtce:ValueOperand>
-							<xtce:Operator>/</xtce:Operator>
-							<xtce:TriggerSet>
-								<xtce:OnParameterUpdateTrigger parameterRef="FrameIDPadding"/>
-							</xtce:TriggerSet>
-						</xtce:MathOperation>
-					</xtce:MathAlgorithm>
-				</xtce:AlgorithmSet>
+        
     </xtce:TelemetryMetaData>
 </xtce:SpaceSystem>
 			
