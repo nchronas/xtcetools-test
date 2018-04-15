@@ -796,18 +796,6 @@
                     <!-- Byte 0 -->
                     <xtce:ParameterRefEntry parameterRef="BootCounterPartial"/>
                     <xtce:ParameterRefEntry parameterRef="FrameID"/>
-                
-                    <!--xtce:ContainerRefEntry containerRef="HousekeepingFrame">
-                        <xtce:IncludeCondition>
-                            <xtce:Comparison parameterRef="FrameID" value="Housekeeping" comparisonOperator="=="/>
-                        </xtce:IncludeCondition>
-                    </xtce:ContainerRefEntry>
-                
-                    <xtce:ContainerRefEntry containerRef="PayloadFrame">
-                        <xtce:IncludeCondition>
-                            <xtce:Comparison parameterRef="FrameID" value="Payload" comparisonOperator="=="/>
-                        </xtce:IncludeCondition>
-                    </xtce:ContainerRefEntry-->
                 </xtce:EntryList>
             </xtce:SequenceContainer>
 
@@ -914,7 +902,10 @@
                 </xtce:EntryList>
                 <xtce:BaseContainer containerRef="Telemetry">
                         <xtce:RestrictionCriteria>
+                            <xtce:ComparisonList>
+                                <xtce:Comparison parameterRef="AX25Header" value="0xa8989a4040400088988c9286660103f0"/>
                                 <xtce:Comparison parameterRef="FrameID" value="Housekeeping"/>
+                            </xtce:ComparisonList>
                         </xtce:RestrictionCriteria>
                 </xtce:BaseContainer>
             </xtce:SequenceContainer>
@@ -947,7 +938,10 @@
                 </xtce:EntryList>
                 <xtce:BaseContainer containerRef="Telemetry">
                         <xtce:RestrictionCriteria>
+                            <xtce:ComparisonList>
+                                <xtce:Comparison parameterRef="AX25Header" value="0xa8989a4040400088988c9286660103f0"/>
                                 <xtce:Comparison parameterRef="FrameID" value="Payload"/>
+                            </xtce:ComparisonList>
                         </xtce:RestrictionCriteria>
                 </xtce:BaseContainer>
             </xtce:SequenceContainer>
