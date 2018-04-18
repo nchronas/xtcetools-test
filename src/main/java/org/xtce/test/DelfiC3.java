@@ -1,17 +1,14 @@
 package org.xtce.test;
 
 import java.io.File;
-import java.util.BitSet;
+import java.util.Iterator;
 import java.util.List;
 import org.xtce.toolkit.XTCEContainerContentEntry;
 import org.xtce.toolkit.XTCEContainerContentModel;
 import org.xtce.toolkit.XTCEContainerEntryValue;
 import org.xtce.toolkit.XTCEDatabase;
 import org.xtce.toolkit.XTCEDatabaseException;
-import org.xtce.toolkit.XTCEFunctions;
-import org.xtce.toolkit.XTCEParameter;
-import org.xtce.toolkit.XTCESpaceSystem;
-import org.xtce.toolkit.XTCETMContainer;
+import org.xtce.toolkit.XTCETMStream;
 
 /**
  * Example Delfi-C3 XTCE telemetry extractor
@@ -73,29 +70,34 @@ public class DelfiC3
             System.out.println("Loading " + file + " database");
 
             XTCEDatabase db_ = new XTCEDatabase(new File(file), true, false, true);
+            
+            List<String> warnings = db_.getDocumentWarnings();
+            Iterator<String> it = warnings.iterator();
+            while(it.hasNext())
+            {
+                System.err.println("ERROR: " + it.next());
+            }
 
-            String containerName = "/Delfi-C3/Downlink";
+            XTCETMStream stream = db_.getStream( "TLM" );
 
-            XTCETMContainer container = db_.getContainer(containerName);
-
-            processFrame(db_, container, p);
-            processFrame(db_, container, hk);
+            processFrame(stream, p);
+            processFrame(stream, hk);
 
         } catch (XTCEDatabaseException ex) 
         {
             ex.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
-
-    static void processFrame(XTCEDatabase db_, XTCETMContainer container, byte[] data) throws XTCEDatabaseException 
+    
+    static void processFrame(XTCETMStream stream, byte[] data) throws XTCEDatabaseException, Exception 
     {
-        XTCEContainerContentModel model = db_.processContainer(container, data);
-
+        XTCEContainerContentModel model = stream.processStream( data );
+ 
         List<XTCEContainerContentEntry> entries = model.getContentList();
 
-
-        for (XTCEContainerContentEntry entry : entries) 
-        {
+        for (XTCEContainerContentEntry entry : entries) {
             System.out.print(entry.getName());
 
             XTCEContainerEntryValue val = entry.getValue();
@@ -105,13 +107,17 @@ public class DelfiC3
                 System.out.println();
             } else 
             {
-                System.out.println(": " + val.getCalibratedValue()+ " "
+                System.out.println(": " + val.getCalibratedValue() + " "
                         + entry.getParameter().getUnits() + " ("
-                        + val.getRawValueHex() + ")");
+                        + val.getRawValueHex()+ ")");
             }
         }
-
-        
+        List<String> warnings = model.getWarnings();
+        Iterator<String> it = warnings.iterator();
+        while(it.hasNext())
+        {
+            System.err.println("WARNING: " + it.next());
+        }
         System.out.println();
     }
 }
