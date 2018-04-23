@@ -143,8 +143,8 @@ public class DelfiC3
                     temp_counter = 0;
                     System.out.println("Read " + passingBy.length + " bytes." + new String(passingBy, 0));
 
-                    hdlc_deframe(passingBy);
-
+                    byte[] resp = hdlc_deframe(passingBy);
+                    process_frame(resp);
 
                   } else if(temp_counter > 0) {
                     temp_buffer[temp_counter++] = newData[0];
@@ -158,6 +158,17 @@ public class DelfiC3
     }
 
 
+    static void process_frame(byte[] frame) {
+    	
+    	byte ser_type = frame[7];
+    	
+    	if(ser_type == 17) {
+    		System.out.println("Test service");
+    	} else if(ser_type == 17) {
+    		System.out.println("Housekeeping service");
+    	}
+    }
+    
     static byte[] hdlc_deframe(byte[] framed) {
 
       int cnt = 0;
