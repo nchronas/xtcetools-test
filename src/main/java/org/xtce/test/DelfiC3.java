@@ -12,6 +12,8 @@ import org.xtce.toolkit.XTCEDatabaseException;
 import org.xtce.toolkit.XTCETMStream;
 
 import com.fazecast.jSerialComm.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Example Delfi-C3 XTCE telemetry extractor
@@ -97,6 +99,18 @@ public class DelfiC3
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+
+
+		Timer t = new Timer();
+		t.scheduleAtFixedRate(new TimerTask() {
+		
+			@Override
+		    public void run() {
+		                System.out.println("Hi!!!!");
+		
+		            }
+		        }, 400, 400);
+
 
 
         while(true) {
