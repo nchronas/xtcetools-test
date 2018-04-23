@@ -89,7 +89,7 @@ public class DelfiC3
             processFrame(stream, p);
             processFrame(stream, hk);
 
-            System.out.println("Yo, how are you?");
+            System.out.println("Yo, how are you? " + (byte) 0x7E + 0x7e );
 
         } catch (XTCEDatabaseException ex)
         {
@@ -120,10 +120,11 @@ public class DelfiC3
                   if(newData[0]== 0x7e) {
                     temp_buffer[0] = 0x7e;
                     temp_counter = 1;
+                    System.out.println("Yo, 7E? " + (temp_buffer[0] ==(byte) 0x7e) );
                   } else if(newData[0]== 0x7c) {
 
-                    temp_buffer[0] = 0x7e;
-
+                    temp_buffer[temp_counter] = 0x7c;
+                    temp_counter++;
                     byte[] passingBy = Arrays.copyOf(temp_buffer, temp_counter);
                     temp_counter = 0;
                     System.out.println("Read " + passingBy.length + " bytes." + new String(passingBy, 0));
@@ -151,17 +152,20 @@ public class DelfiC3
       for(int idx = 0; idx < framed.length; idx++) {
 
           if(idx == 0 && framed[idx] != 0x7E) {  //HLDLC_START_FLAG
-              System.out.println("Error in HLDC deframe");
+              System.out.println("Error in HLDC deframe 1");
               //throw exeption
           }
 
-          if(framed[idx] == 0x7C) { //HLDLC_STOP_FLAG
-              byte[] temp = new byte[cnt];
-              for(int i = 0; i <= cnt; i++) {
-                temp[i] = res[i];
-              }
-              System.out.println("HLDC deframe complete " + temp.length + " bytes." + new String(temp, 0));
-              return temp;
+          if(framed[idx] == (byte)0x7E) { //HLDLC_START_FLAG
+            // do nothing, no need to copy
+              
+          } else if(framed[idx] == (byte)0x7C) { //HLDLC_STOP_FLAG
+                  byte[] temp = new byte[cnt];
+                  for(int i = 0; i < cnt; i++) {
+                    temp[i] = res[i];
+                  }
+                  System.out.println("HLDC deframe complete " + temp.length + " bytes." + new String(temp, 0));
+                  return temp;
 
           } else if(framed[idx] == 0x7D) { //HLDLC_CONTROL_FLAG
 
@@ -172,7 +176,7 @@ public class DelfiC3
               } else if(framed[idx] == 0x5C) {
                 res[cnt++] = 0x7C;
               } else {
-                System.out.println("Error in HLDC deframe");
+                System.out.println("Error in HLDC deframe 2");
                 //throw exeption
               }
               idx++;
@@ -181,9 +185,18 @@ public class DelfiC3
           }
       }
 
-      System.out.println("Error in HLDC deframe");
+      System.out.println("Error in HLDC deframe 3");
       //throw exeption
       return res;
+    }
+
+    int checkSum(byte[] data, int size) {
+
+        int res_crc = 0;
+        for(int i=0; i<=size; i++) {
+            res_crc = res_crc ^ data[i];
+        }
+        return res_crc;
     }
 
 
