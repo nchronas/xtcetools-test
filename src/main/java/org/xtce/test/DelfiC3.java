@@ -25,6 +25,10 @@ public class DelfiC3
   static byte[] temp_buffer = new byte[100];
   static int temp_counter = 0;
 
+  static const int HLDLC_START_FLAG = 0x7E;
+  static const int HLDLC_CONTROL_FLAG = 0x7D;
+  static const int HLDLC_STOP_FLAG = 0x7C;
+
     public static void main(String[] args)
     {
 
@@ -103,13 +107,16 @@ public class DelfiC3
 
 		Timer t = new Timer();
 		t.scheduleAtFixedRate(new TimerTask() {
-		
+
 			@Override
 		    public void run() {
-		                System.out.println("Hi!!!!");
-		
+		                System.out.println("Tx test service");
+		                byte[] ts_tx_raw = { 24,1,192,185,0,5,16,17,1,6,0,0 };
+                    ts_tx_raw[ts_tx_raw.length - 1] = checkSum(ts_tx_raw, ts_tx_raw.length - 2);
+                    byte[] framed = hdlc_frame(ts_tx_raw);
+                    writeBytes​(framed,framed.length);
 		            }
-		        }, 400, 400);
+		        }, 1000, 1000);
 
 
 
@@ -131,13 +138,13 @@ public class DelfiC3
                   byte[] newData = new byte[1];
                   int numRead = comPort.readBytes(newData, 1);
 
-                  if(newData[0]== 0x7e) {
+                  if(newData[0]== HLDLC_START_FLAG) {
                     temp_buffer[0] = 0x7e;
                     temp_counter = 1;
                     System.out.println("Yo, 7E? " + (temp_buffer[0] ==(byte) 0x7e) );
-                  } else if(newData[0]== 0x7c) {
+                  } else if(newData[0]== HLDLC_STOP_FLAG) {
 
-                    temp_buffer[temp_counter] = 0x7c;
+                    temp_buffer[temp_counter] = HLDLC_STOP_FLAG;
                     temp_counter++;
                     byte[] passingBy = Arrays.copyOf(temp_buffer, temp_counter);
                     temp_counter = 0;
@@ -157,18 +164,63 @@ public class DelfiC3
         }
     }
 
+    static byte[] HLDLC_frame(byte[] buf_in) {
+
+        byte temp[100];
+        int size = buf_in.length;
+        int cnt = 2;
+
+
+        for(uint16_t i = 0; i < size; i++) {
+            if(i == 0) {
+                temp[0] = HLDLC_START_FLAG;
+                temp[1] = buf_in[0];
+            } else if(i == (size) - 1) {
+                if(buf_in[i] == HLDLC_START_FLAG) {
+                    temp[cnt++] = HLDLC_CONTROL_FLAG;
+                    temp[cnt++] = 0x5E;
+                } else if(buf_in[i] == HLDLC_STOP_FLAG) {
+                    temp[cnt++] = HLDLC_CONTROL_FLAG;
+                    temp[cnt++] = 0x5C;
+                } else if(buf_in[i] == HLDLC_CONTROL_FLAG) {
+                    temp[cnt++] = HLDLC_CONTROL_FLAG;
+                    temp[cnt++] = 0x5D;
+                } else {
+                    temp[cnt++] = buf_in[i];
+                }
+                temp[cnt++] = HLDLC_STOP_FLAG;
+
+                byte[] res = Arrays.copyOf(temp, cnt);
+                return res;
+            } else if(buf_in[i] == HLDLC_START_FLAG) {
+                temp[cnt++] = HLDLC_CONTROL_FLAG;
+                temp[cnt++] = 0x5E;
+            } else if(buf_in[i] == HLDLC_STOP_FLAG) {
+                temp[cnt++] = HLDLC_CONTROL_FLAG;
+                temp[cnt++] = 0x5C;
+            } else if(buf_in[i] == HLDLC_CONTROL_FLAG) {
+                temp[cnt++] = HLDLC_CONTROL_FLAG;
+                temp[cnt++] = 0x5D;
+            } else {
+                temp[cnt++] = buf_in[i];
+            }
+
+        }
+        System.out.println("Error in HLDC frame");
+        return temp;
+    }
 
     static void process_frame(byte[] frame) {
-    	
+
     	byte ser_type = frame[7];
-    	
+
     	if(ser_type == 17) {
     		System.out.println("Test service");
-    	} else if(ser_type == 17) {
+    	} else if(ser_type == 3) {
     		System.out.println("Housekeeping service");
     	}
     }
-    
+
     static byte[] hdlc_deframe(byte[] framed) {
 
       int cnt = 0;
@@ -176,15 +228,15 @@ public class DelfiC3
 
       for(int idx = 0; idx < framed.length; idx++) {
 
-          if(idx == 0 && framed[idx] != 0x7E) {  //HLDLC_START_FLAG
+          if(idx == 0 && framed[idx] != HLDLC_START_FLAG) {  //HLDLC_START_FLAG
               System.out.println("Error in HLDC deframe 1");
               //throw exeption
           }
 
-          if(framed[idx] == (byte)0x7E) { //HLDLC_START_FLAG
+          if(framed[idx] == (byte)HLDLC_START_FLAG) { //HLDLC_START_FLAG
             // do nothing, no need to copy
-              
-          } else if(framed[idx] == (byte)0x7C) { //HLDLC_STOP_FLAG
+
+          } else if(framed[idx] == (byte)HLDLC_STOP_FLAG) { //HLDLC_STOP_FLAG
                   byte[] temp = new byte[cnt];
                   for(int i = 0; i < cnt; i++) {
                     temp[i] = res[i];
@@ -192,7 +244,7 @@ public class DelfiC3
                   System.out.println("HLDC deframe complete " + temp.length + " bytes." + new String(temp, 0));
                   return temp;
 
-          } else if(framed[idx] == 0x7D) { //HLDLC_CONTROL_FLAG
+          } else if(framed[idx] == HLDLC_CONTROL_FLAG) { //HLDLC_CONTROL_FLAG
 
               if(framed[idx] == 0x5E) {
                 res[cnt++] = 0x7E;

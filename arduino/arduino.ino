@@ -6,21 +6,30 @@ void setup() {
 
 }
 
-int cnt=0;
-uint8_t msg[100];
-uint16_t siz = 0;
+uint16_t size_out = 0;
 uint8_t out[100];
+
+uint8_t buf[100];
+uint16_t b_cnt = 0;
 
 void loop() {
 
-  sprintf(msg,"Hello %d\n", cnt);
-  siz = strlen(msg);
-  HLDLC_frame(msg, out, &siz);
+  if(Serial.available() > 0) {
+    uint8_t c = Serial.read();
 
-  for(int i=0; i < siz; i++) {
-    Serial.write(out[i]);
+    if(c == HLDLC_STOP_FLAG) {
+      buf[b_cnt++] = c;
+
+      size_out = 0;
+      HLDLC_deframe(buf, out,b_cnt, &size_out);
+      if(size_out > 0) {
+        process_frame(out);
+      }
+
+      b_cnt = 0;
+    } else if(b_cnt > 0 || c == HLDLC_START_FLAG) {
+      buf[b_cnt++] = c;
+    }
   }
-  //Serial.println(cnt++);
-  cnt++;
-  delay(1000);
+
 }
