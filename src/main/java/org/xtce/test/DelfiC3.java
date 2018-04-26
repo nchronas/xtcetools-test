@@ -25,9 +25,12 @@ public class DelfiC3
   static byte[] temp_buffer = new byte[100];
   static int temp_counter = 0;
 
-  static const int HLDLC_START_FLAG = 0x7E;
-  static const int HLDLC_CONTROL_FLAG = 0x7D;
-  static const int HLDLC_STOP_FLAG = 0x7C;
+  static SerialPort comPort;
+  
+  static final int HLDLC_START_FLAG = 0x7E;
+  static final int HLDLC_CONTROL_FLAG = 0x7D;
+  static final int HLDLC_STOP_FLAG = 0x7C;
+  
 
     public static void main(String[] args)
     {
@@ -104,24 +107,8 @@ public class DelfiC3
             ex.printStackTrace();
         }
 
-
-		Timer t = new Timer();
-		t.scheduleAtFixedRate(new TimerTask() {
-
-			@Override
-		    public void run() {
-		                System.out.println("Tx test service");
-		                byte[] ts_tx_raw = { 24,1,192,185,0,5,16,17,1,6,0,0 };
-                    ts_tx_raw[ts_tx_raw.length - 1] = checkSum(ts_tx_raw, ts_tx_raw.length - 2);
-                    byte[] framed = hdlc_frame(ts_tx_raw);
-                    writeBytes​(framed,framed.length);
-		            }
-		        }, 1000, 1000);
-
-
-
-        while(true) {
-          SerialPort comPort = SerialPort.getCommPort("/dev/ttyACM0");
+        
+          comPort = SerialPort.getCommPort("/dev/ttyACM0");
           comPort.openPort();
           comPort.addDataListener(new SerialPortDataListener() {
             @Override
@@ -161,17 +148,33 @@ public class DelfiC3
 
               }
             });
+          
+  		Timer t = new Timer();
+  		t.scheduleAtFixedRate(new TimerTask() {
+
+  			@Override
+  		    public void run() {
+  		                System.out.println("Tx test service");
+  		                byte[] ts_tx_raw = { 24,1,(byte)192,(byte)185,0,5,16,17,1,6,0,0 };
+                      ts_tx_raw[ts_tx_raw.length - 1] = (byte)checkSum(ts_tx_raw, ts_tx_raw.length - 2);
+                      byte[] framed = HLDLC_frame(ts_tx_raw);
+                      comPort.writeBytes(framed, (long)framed.length);
+  		            }
+  		        }, 1000, 1000);
+
+          
+        while(true) {
         }
     }
 
     static byte[] HLDLC_frame(byte[] buf_in) {
 
-        byte temp[100];
+        byte[] temp = new byte[100];
         int size = buf_in.length;
         int cnt = 2;
 
 
-        for(uint16_t i = 0; i < size; i++) {
+        for(int i = 0; i < size; i++) {
             if(i == 0) {
                 temp[0] = HLDLC_START_FLAG;
                 temp[1] = buf_in[0];
@@ -215,9 +218,9 @@ public class DelfiC3
     	byte ser_type = frame[7];
 
     	if(ser_type == 17) {
-    		System.out.println("Test service");
+    		System.out.println("Processed Test service");
     	} else if(ser_type == 3) {
-    		System.out.println("Housekeeping service");
+    		System.out.println("Processed Housekeeping service");
     	}
     }
 
@@ -267,7 +270,7 @@ public class DelfiC3
       return res;
     }
 
-    int checkSum(byte[] data, int size) {
+    static int checkSum(byte[] data, int size) {
 
         int res_crc = 0;
         for(int i=0; i<=size; i++) {

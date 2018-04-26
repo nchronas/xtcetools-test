@@ -23,7 +23,7 @@ void process_frame(uint8_t *buf) {
       ts_tx_raw[11] = res_crc;
 
       uint8_t out[100];
-      uint8_t size = 12;
+      uint16_t size = 12;
       HLDLC_frame(ts_tx_raw, out, &size);
 
       for(int i=0; i < size; i++) {
@@ -31,6 +31,6 @@ void process_frame(uint8_t *buf) {
       }
 
     } else if(ser_type == 3) {
-      System.out.println("Housekeeping service");
+      //System.out.println("Housekeeping service");
     }
 }

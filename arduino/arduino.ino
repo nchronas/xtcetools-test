@@ -17,7 +17,7 @@ void loop() {
   if(Serial.available() > 0) {
     uint8_t c = Serial.read();
 
-    if(c == HLDLC_STOP_FLAG) {
+    if(c == 0x7C) {
       buf[b_cnt++] = c;
 
       size_out = 0;
@@ -27,7 +27,7 @@ void loop() {
       }
 
       b_cnt = 0;
-    } else if(b_cnt > 0 || c == HLDLC_START_FLAG) {
+    } else if(b_cnt > 0 || c == 0x7E) {
       buf[b_cnt++] = c;
     }
   }
