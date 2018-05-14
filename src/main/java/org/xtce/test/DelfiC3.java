@@ -53,14 +53,14 @@ public class DelfiC3
                   if(newData[0]== HLDLC_START_FLAG) {
                     temp_buffer[0] = 0x7e;
                     temp_counter = 1;
-                    System.out.println("Yo, 7E? " + (temp_buffer[0] ==(byte) 0x7e) );
+                    //System.out.println("Yo, 7E? " + (temp_buffer[0] ==(byte) 0x7e) );
                   } else if(newData[0]== HLDLC_STOP_FLAG) {
 
                     temp_buffer[temp_counter] = HLDLC_STOP_FLAG;
                     temp_counter++;
                     byte[] passingBy = Arrays.copyOf(temp_buffer, temp_counter);
                     temp_counter = 0;
-                    System.out.println("Read " + passingBy.length + " bytes." + new String(passingBy, 0));
+                    //System.out.println("Read " + passingBy.length + " bytes." + Arrays.toString(passingBy));
 
                     byte[] resp = hdlc_deframe(passingBy);
                     process_frame(resp);
@@ -79,13 +79,67 @@ public class DelfiC3
 
   			@Override
   		    public void run() {
-  		                System.out.println("Tx test service");
-  		                byte[] ts_tx_raw = { 24,1,(byte)192,(byte)185,0,5,16,17,1,6,0,0 };
-                      ts_tx_raw[ts_tx_raw.length - 1] = (byte)checkSum(ts_tx_raw, ts_tx_raw.length - 2);
-                      byte[] framed = HLDLC_frame(ts_tx_raw);
-                      comPort.writeBytes(framed, (long)framed.length);
+  		               
+  		                byte[] ts_tx_raw = { (byte)0x18, (byte)0x02, (byte)0xc0, (byte)0xb9, (byte)0x0, (byte)0x05, (byte)0x10, (byte)0x11, (byte)0x01, (byte)0x07, (byte)0x00, (byte)0x00 };
+                        ts_tx_raw[ts_tx_raw.length - 1] = (byte)checkSum(ts_tx_raw, ts_tx_raw.length - 2);
+                        byte[] framed = HLDLC_frame(ts_tx_raw);
+                        //comPort.writeBytes(framed, (long)framed.length);
+                        String temp =Arrays.toString(framed);
+                        //System.out.println("Tx test service to EPS " + temp);
+                        
+                        try {
+							Thread.sleep(3000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+                        
+
+	                        byte[] ts_tx_raw2 = { (byte)0x18, (byte)0x03, (byte)0xc0, (byte)0xb9, (byte)0x0, (byte)0x05, (byte)0x10, (byte)0x11, (byte)0x01, (byte)0x07, (byte)0x00, (byte)0x00 };
+	                        ts_tx_raw2[ts_tx_raw2.length - 1] = (byte)checkSum(ts_tx_raw2, ts_tx_raw2.length - 2);
+	                        framed = HLDLC_frame(ts_tx_raw2);
+	                        //comPort.writeBytes(framed, (long)framed.length);
+	                        temp =Arrays.toString(framed);
+	                        //System.out.println("Tx test service to ADB" + temp);
+
+                        try {
+							Thread.sleep(3000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+                        
+                        
+                        byte[] ts_tx_raw3 = { (byte)0x18, (byte)0x02, (byte)0xc0, (byte)0xb9, (byte)0x0, (byte)0x06, (byte)0x10, (byte)0x03, (byte)0x15, (byte)0x07, (byte)0x01, (byte)0x00, (byte)0x00 };
+                        ts_tx_raw3[ts_tx_raw3.length - 1] = (byte)checkSum(ts_tx_raw3, ts_tx_raw3.length - 2);
+                        framed = HLDLC_frame(ts_tx_raw3);
+                        comPort.writeBytes(framed, (long)framed.length);
+                        temp =Arrays.toString(framed);
+                        System.out.println("Tx housekeeping service to EPS" + temp);
+
+                    try {
+						Thread.sleep(3000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+  		            
+                        
+                        byte[] ts_tx_raw4 = { (byte)0x18, (byte)0x03, (byte)0xc0, (byte)0xb9, (byte)0x0, (byte)0x06, (byte)0x10, (byte)0x03, (byte)0x15, (byte)0x07, (byte)0x01, (byte)0x00, (byte)0x00 };
+                        ts_tx_raw4[ts_tx_raw4.length - 1] = (byte)checkSum(ts_tx_raw4, ts_tx_raw4.length - 2);
+                        framed = HLDLC_frame(ts_tx_raw4);
+                        //comPort.writeBytes(framed, (long)framed.length);
+                        temp =Arrays.toString(framed);
+                        //System.out.println("Tx housekeeping service to ADB" + temp);
+
+                    try {
+						Thread.sleep(3000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
   		            }
-  		        }, 1000, 1000);
+  		        }, 1000, 30000);
 
           
         while(true) {
@@ -140,13 +194,31 @@ public class DelfiC3
 
     static void process_frame(byte[] frame) {
 
-    	byte ser_type = frame[7];
-
-    	if(ser_type == 17) {
-    		System.out.println("Processed Test service");
-    	} else if(ser_type == 3) {
-    		System.out.println("Processed Housekeeping service");
+    	if(frame.length <= 0) {
+    		return;
     	}
+    	byte source_id = frame[1];
+    	byte ser_type = frame[7];
+    	byte ser_subtype = frame[8];
+
+    	if(ser_type == 17 && ser_subtype == 2) {
+    		System.out.println("Frame: " + Arrays.toString(frame));
+    		System.out.println("Processed Test service response from " + source_id + " !!!!!!!!!!!!!");
+    		
+    	} else if(ser_type == 3) {
+    		System.out.println("Frame: " + byteArrayToHex(frame));
+    		System.out.println("Processed Housekeeping service response from " + source_id + " !!!!!!!!!!!!!");
+    
+    	}
+    }
+    
+    static String byteArrayToHex(byte[] a) {
+    
+    	StringBuilder sb = new StringBuilder(a.length *3);
+    	for(byte b: a) {
+    		sb.append(String.format(" %02x", b));
+    	}
+    	return sb.toString();
     }
 
     static byte[] hdlc_deframe(byte[] framed) {
@@ -157,7 +229,7 @@ public class DelfiC3
       for(int idx = 0; idx < framed.length; idx++) {
 
           if(idx == 0 && framed[idx] != HLDLC_START_FLAG) {  //HLDLC_START_FLAG
-              System.out.println("Error in HLDC deframe 1");
+              System.out.println("Error in HLDC deframe 1" + "Frame: " + Arrays.toString(framed));
               //throw exeption
           }
 
@@ -169,7 +241,7 @@ public class DelfiC3
                   for(int i = 0; i < cnt; i++) {
                     temp[i] = res[i];
                   }
-                  System.out.println("HLDC deframe complete " + temp.length + " bytes." + new String(temp, 0));
+                  //System.out.println("HLDC deframe complete " + temp.length + " bytes." + new String(temp, 0));
                   return temp;
 
           } else if(framed[idx] == HLDLC_CONTROL_FLAG) { //HLDLC_CONTROL_FLAG
