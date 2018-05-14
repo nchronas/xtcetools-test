@@ -33,12 +33,13 @@ public class DelfiC3
   
 
     public static void main(String[] args)
-          comPort = SerialPort.getCommPort("/dev/ttyACM0");
+    {     
+          comPort = SerialPort.getCommPort("/dev/ttyUSB0");
           comPort.openPort();
           comPort.addDataListener(new SerialPortDataListener() {
             @Override
             public int getListeningEvents() { return SerialPort.LISTENING_EVENT_DATA_AVAILABLE; }
-            @Override
+            @Override 
               public void serialEvent(SerialPortEvent event)
               {
 
