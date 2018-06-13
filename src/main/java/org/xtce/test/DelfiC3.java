@@ -26,20 +26,22 @@ public class DelfiC3
   static int temp_counter = 0;
 
   static SerialPort comPort;
-  
+
   static final int HLDLC_START_FLAG = 0x7E;
   static final int HLDLC_CONTROL_FLAG = 0x7D;
   static final int HLDLC_STOP_FLAG = 0x7C;
-  
+
 
     public static void main(String[] args)
-    {     
-          comPort = SerialPort.getCommPort("/dev/ttyUSB0");
+    {
+          //comPort = SerialPort.getCommPort("/dev/ttyUSB0");
+          comPort = SerialPort.getCommPort("/dev/ttyACM4");
+          
           comPort.openPort();
           comPort.addDataListener(new SerialPortDataListener() {
             @Override
             public int getListeningEvents() { return SerialPort.LISTENING_EVENT_DATA_AVAILABLE; }
-            @Override 
+            @Override
               public void serialEvent(SerialPortEvent event)
               {
 
@@ -52,97 +54,92 @@ public class DelfiC3
                   int numRead = comPort.readBytes(newData, 1);
 
                   if(newData[0]== HLDLC_START_FLAG) {
-                    temp_buffer[0] = 0x7e;
-                    temp_counter = 1;
-                    //System.out.println("Yo, 7E? " + (temp_buffer[0] ==(byte) 0x7e) );
-                  } else if(newData[0]== HLDLC_STOP_FLAG) {
-
-                    temp_buffer[temp_counter] = HLDLC_STOP_FLAG;
+                    System.out.printf("\nNew address: ");
+                  } else if(newData[0]== HLDLC_CONTROL_FLAG) {
                     temp_counter++;
-                    byte[] passingBy = Arrays.copyOf(temp_buffer, temp_counter);
-                    temp_counter = 0;
-                    //System.out.println("Read " + passingBy.length + " bytes." + Arrays.toString(passingBy));
-
-                    byte[] resp = hdlc_deframe(passingBy);
-                    process_frame(resp);
-
                   } else if(temp_counter > 0) {
-                    temp_buffer[temp_counter++] = newData[0];
+                    if(newData[0] == 0x5e) {
+                      System.out.printf(",7e ");  
+                    } else if(newData[0] == 0x5d) {
+                      System.out.print(",0x7d ");  
+                    } else {
+                      System.out.printf(",Error ");
+                    }
+                    temp_counter = 0;
+                  } else {
+                	System.out.printf(",%x ", newData[0]);  
                   }
+                  
 
                 }
 
               }
             });
-          
+
   		Timer t = new Timer();
   		t.scheduleAtFixedRate(new TimerTask() {
 
   			@Override
   		    public void run() {
-  		               
-  		                byte[] ts_tx_raw = { (byte)0x18, (byte)0x02, (byte)0xc0, (byte)0xb9, (byte)0x0, (byte)0x05, (byte)0x10, (byte)0x11, (byte)0x01, (byte)0x07, (byte)0x00, (byte)0x00 };
-                        ts_tx_raw[ts_tx_raw.length - 1] = (byte)checkSum(ts_tx_raw, ts_tx_raw.length - 2);
-                        byte[] framed = HLDLC_frame(ts_tx_raw);
-                        //comPort.writeBytes(framed, (long)framed.length);
-                        String temp =Arrays.toString(framed);
-                        //System.out.println("Tx test service to EPS " + temp);
-                        
-                        try {
-							Thread.sleep(3000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-                        
 
-	                        byte[] ts_tx_raw2 = { (byte)0x18, (byte)0x03, (byte)0xc0, (byte)0xb9, (byte)0x0, (byte)0x05, (byte)0x10, (byte)0x11, (byte)0x01, (byte)0x07, (byte)0x00, (byte)0x00 };
-	                        ts_tx_raw2[ts_tx_raw2.length - 1] = (byte)checkSum(ts_tx_raw2, ts_tx_raw2.length - 2);
-	                        framed = HLDLC_frame(ts_tx_raw2);
-	                        //comPort.writeBytes(framed, (long)framed.length);
-	                        temp =Arrays.toString(framed);
-	                        //System.out.println("Tx test service to ADB" + temp);
-
-                        try {
-							Thread.sleep(3000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+                        byte[] tx_raw;
                         
-                        
-                        byte[] ts_tx_raw3 = { (byte)0x18, (byte)0x02, (byte)0xc0, (byte)0xb9, (byte)0x0, (byte)0x06, (byte)0x10, (byte)0x03, (byte)0x15, (byte)0x07, (byte)0x01, (byte)0x00, (byte)0x00 };
-                        ts_tx_raw3[ts_tx_raw3.length - 1] = (byte)checkSum(ts_tx_raw3, ts_tx_raw3.length - 2);
-                        framed = HLDLC_frame(ts_tx_raw3);
-                        comPort.writeBytes(framed, (long)framed.length);
-                        temp =Arrays.toString(framed);
-                        System.out.println("Tx housekeeping service to EPS" + temp);
+                        // byte[] ts_obc_raw = { (byte)0x18, (byte)0x01, (byte)0xc0, (byte)0xb9, (byte)0x0, (byte)0x05, (byte)0x10, (byte)0x11, (byte)0x01, (byte)0x07, (byte)0x00, (byte)0x00 };
+                        // tx_raw = Arrays.copyOf(ts_obc_raw, ts_obc_raw.length);
+                        // System.out.println("Tx test service to OBC");
+                        // ser_tx(tx_raw, (byte)1);
+                        //
+  		                  // byte[] ts_eps_raw = { (byte)0x18, (byte)0x02, (byte)0xc0, (byte)0xb9, (byte)0x0, (byte)0x05, (byte)0x10, (byte)0x11, (byte)0x01, (byte)0x07, (byte)0x00, (byte)0x00 };
+                        // tx_raw = Arrays.copyOf(ts_eps_raw, ts_eps_raw.length);
+                        // System.out.println("Tx test service to EPS");
+                        // ser_tx(tx_raw, (byte)2);
+                        //
+	                      // byte[] ts_adb_raw = { (byte)0x18, (byte)0x03, (byte)0xc0, (byte)0xb9, (byte)0x0, (byte)0x05, (byte)0x10, (byte)0x11, (byte)0x01, (byte)0x07, (byte)0x00, (byte)0x00 };
+                        // tx_raw = Arrays.copyOf(ts_adb_raw, ts_adb_raw.length);
+                        // System.out.println("Tx test service to ADB");
+                        // ser_tx(tx_raw, (byte)3);
+                        //
+                        // byte[] ts_adcs_raw = { (byte)0x18, (byte)0x05, (byte)0xc0, (byte)0xb9, (byte)0x0, (byte)0x05, (byte)0x10, (byte)0x11, (byte)0x01, (byte)0x07, (byte)0x00, (byte)0x00 };
+                        // tx_raw = Arrays.copyOf(ts_adcs_raw, ts_adcs_raw.length);
+                        // System.out.println("Tx test service to ADCS");
+                        // ser_tx(tx_raw, (byte)5);
+                        //
+                        //
+                        // byte[] hk_obc_raw = { (byte)0x18, (byte)0x01, (byte)0xc0, (byte)0xb9, (byte)0x0, (byte)0x06, (byte)0x10, (byte)0x03, (byte)0x15, (byte)0x07, (byte)0x01, (byte)0x00, (byte)0x00 };
+                        // tx_raw = Arrays.copyOf(hk_obc_raw, hk_obc_raw.length);
+                        // System.out.println("Tx Housekeeping service to OBC");
+                        // ser_tx(tx_raw, (byte)1);
+                        //
+                        // byte[] hk_eps_raw = { (byte)0x18, (byte)0x02, (byte)0xc0, (byte)0xb9, (byte)0x0, (byte)0x06, (byte)0x10, (byte)0x03, (byte)0x15, (byte)0x07, (byte)0x01, (byte)0x00, (byte)0x00 };
+                        // tx_raw = Arrays.copyOf(hk_eps_raw, hk_eps_raw.length);
+                        // System.out.println("Tx Housekeeping service to EPS");
+                        // ser_tx(tx_raw, (byte)2);
+                        //
+                        // byte[] hk_adb_raw = { (byte)0x18, (byte)0x03, (byte)0xc0, (byte)0xb9, (byte)0x0, (byte)0x06, (byte)0x10, (byte)0x03, (byte)0x15, (byte)0x07, (byte)0x01, (byte)0x00, (byte)0x00 };
+                        // tx_raw = Arrays.copyOf(hk_adb_raw, hk_adb_raw.length);
+                        // System.out.println("Tx Housekeeping service to ADB");
+                        // ser_tx(tx_raw, (byte)3);
+                        //
+                        // byte[] hk_adcs_raw = { (byte)0x18, (byte)0x05, (byte)0xc0, (byte)0xb9, (byte)0x0, (byte)0x06, (byte)0x10, (byte)0x03, (byte)0x15, (byte)0x07, (byte)0x01, (byte)0x00, (byte)0x00 };
+                        // tx_raw = Arrays.copyOf(hk_adcs_raw, hk_adcs_raw.length);
+                        // System.out.println("Tx Housekeeping service to ADCS");
+                        // ser_tx(tx_raw, (byte)5);
+                        //
+                        //
+                        // byte[] fm_eps_off_raw = { (byte)0x18, (byte)0x02, (byte)0xc0, (byte)0xb9, (byte)0x0, (byte)0x07, (byte)0x10, (byte)0x08, (byte)0x01, (byte)0x07, (byte)0x00, (byte)0x04, (byte)0x00, (byte)0x00 };
+                        // tx_raw = Arrays.copyOf(fm_eps_off_raw, fm_eps_off_raw.length);
+                        // System.out.println("Tx FM service to EPS, closing v1");
+                        // //ser_tx(tx_raw, (byte)2);
+                        //
+                        // byte[] fm_eps_on_raw = { (byte)0x18, (byte)0x02, (byte)0xc0, (byte)0xb9, (byte)0x0, (byte)0x07, (byte)0x10, (byte)0x08, (byte)0x01, (byte)0x07, (byte)0x01, (byte)0x04, (byte)0x00, (byte)0x00 };
+                        // tx_raw = Arrays.copyOf(fm_eps_on_raw, fm_eps_on_raw.length);
+                        // System.out.println("Tx FM service to EPS, opening v1");
+                        // //ser_tx(tx_raw, (byte)2);
 
-                    try {
-						Thread.sleep(3000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-  		            
-                        
-                        byte[] ts_tx_raw4 = { (byte)0x18, (byte)0x03, (byte)0xc0, (byte)0xb9, (byte)0x0, (byte)0x06, (byte)0x10, (byte)0x03, (byte)0x15, (byte)0x07, (byte)0x01, (byte)0x00, (byte)0x00 };
-                        ts_tx_raw4[ts_tx_raw4.length - 1] = (byte)checkSum(ts_tx_raw4, ts_tx_raw4.length - 2);
-                        framed = HLDLC_frame(ts_tx_raw4);
-                        //comPort.writeBytes(framed, (long)framed.length);
-                        temp =Arrays.toString(framed);
-                        //System.out.println("Tx housekeeping service to ADB" + temp);
-
-                    try {
-						Thread.sleep(3000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
   		            }
-  		        }, 1000, 30000);
+  		        }, 1000, 10000);
 
-          
+
         while(true) {
         }
     }
@@ -193,28 +190,75 @@ public class DelfiC3
         return temp;
     }
 
+    static void ser_tx(byte[] frame, byte dest) {
+
+      frame[frame.length - 1] = (byte)checkSum(frame, frame.length - 2);
+      byte[] pq_frame = pq_pack(frame, dest);
+      //byte[] pq_frame = pq_pack(ts_tx_raw, 3);
+      byte[] framed = HLDLC_frame(pq_frame);
+      comPort.writeBytes(framed, (long)framed.length);
+      String temp =Arrays.toString(framed);
+      System.out.println("Tx: " + temp);
+
+      try {
+      Thread.sleep(3000);
+      } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+      }
+    }
+
+
+    static byte[] pq_unpack(byte[] frame) {
+      byte[] res = Arrays.copyOf(frame, frame.length-1);
+      System.out.println("PQ to " + frame[frame.length-1]);
+      return res;
+    }
+
+    static byte[] pq_pack(byte[] frame, byte dest) {
+      byte[] res = Arrays.copyOf(frame, frame.length+1);
+      res[frame.length] = dest;
+
+      return res;
+    }
+
     static void process_frame(byte[] frame) {
 
     	if(frame.length <= 0) {
     		return;
     	}
+      byte type = frame[0];
     	byte source_id = frame[1];
     	byte ser_type = frame[7];
     	byte ser_subtype = frame[8];
 
-    	if(ser_type == 17 && ser_subtype == 2) {
+    	if(ser_type == 17 && ser_subtype == 2 && type == 8) {
     		System.out.println("Frame: " + Arrays.toString(frame));
     		System.out.println("Processed Test service response from " + source_id + " !!!!!!!!!!!!!");
-    		
-    	} else if(ser_type == 3) {
+
+    	} else if(ser_type == 3 && type == 8) {
     		System.out.println("Frame: " + byteArrayToHex(frame));
     		System.out.println("Processed Housekeeping service response from " + source_id + " !!!!!!!!!!!!!");
-    
+
     	}
+
+      if(ser_type == 17 && ser_subtype == 1 && type == 24) {
+        source_id = frame[9];
+
+        System.out.println("Frame: " + Arrays.toString(frame));
+        System.out.println("Processed Test service request from " + source_id + " !!!!!!!!!!!!!");
+
+      } else if(ser_type == 3 && type == 24) {
+        source_id = frame[9];
+
+        System.out.println("Frame: " + byteArrayToHex(frame));
+        System.out.println("Processed Housekeeping service request from " + source_id + " !!!!!!!!!!!!!");
+
+      }
     }
-    
+
     static String byteArrayToHex(byte[] a) {
-    
+
     	StringBuilder sb = new StringBuilder(a.length *3);
     	for(byte b: a) {
     		sb.append(String.format(" %02x", b));
@@ -246,7 +290,7 @@ public class DelfiC3
                   return temp;
 
           } else if(framed[idx] == HLDLC_CONTROL_FLAG) { //HLDLC_CONTROL_FLAG
-
+              idx++;
               if(framed[idx] == 0x5E) {
                 res[cnt++] = 0x7E;
               } else if(framed[idx] == 0x5D) {
@@ -278,5 +322,5 @@ public class DelfiC3
     }
 
 
-   
+
 }
