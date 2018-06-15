@@ -14,6 +14,7 @@ import org.xtce.toolkit.XTCETMStream;
 import com.fazecast.jSerialComm.*;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.Scanner;
 
 /**
  * Example Delfi-C3 XTCE telemetry extractor
@@ -35,7 +36,7 @@ public class DelfiC3
     public static void main(String[] args)
     {
           //comPort = SerialPort.getCommPort("/dev/ttyUSB0");
-          comPort = SerialPort.getCommPort("/dev/ttyACM4");
+          comPort = SerialPort.getCommPort("/dev/ttyACM0");
           
           comPort.openPort();
           comPort.addDataListener(new SerialPortDataListener() {
@@ -68,14 +69,15 @@ public class DelfiC3
                     temp_counter = 0;
                   } else {
                 	System.out.printf(",%x ", newData[0]);  
+                	System.out.printf(",%c ", newData[0]); 
                   }
                   
 
                 }
 
               }
-            });
-
+            });  
+          
   		Timer t = new Timer();
   		t.scheduleAtFixedRate(new TimerTask() {
 
@@ -139,8 +141,23 @@ public class DelfiC3
   		            }
   		        }, 1000, 10000);
 
-
+  		Scanner scanner = new Scanner(System.in);
+  		
         while(true) {
+        	System.out.println("Tell me what to do");
+        	String c = scanner.nextLine();
+        	if(c.matches("r")) {
+        		System.out.println("Sending ping");
+        		byte[] ping_eps = { (byte)0x55, (byte)0x02, (byte)0x01, (byte)0x11, (byte)0x01, (byte)0x00, (byte)0x00};
+        		byte[] tx_raw = Arrays.copyOf(ping_eps, ping_eps.length);
+        		byte[] framed = HLDLC_frame(tx_raw);
+        	    comPort.writeBytes(framed, (long)framed.length);
+        	    String temp =Arrays.toString(framed);
+        	    System.out.println("Tx: " + temp);
+
+        	} else {
+        		System.out.println("Wrong command");
+        	}
         }
     }
 
